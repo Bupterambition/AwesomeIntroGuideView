@@ -8,12 +8,15 @@
 
 #import "MGJPFIntroguideView.h"
 #import <QuartzCore/QuartzCore.h>
+
 static const CGFloat kAnimationDuration = 0.3f;
 static const CGFloat kCutoutRadius = 2.0f;
 static const CGFloat kMaxLblWidth = 230.0f;
 static const CGFloat kLblSpacing = 35.0f;
 static const BOOL kEnableContinueLabel = YES;
 static const BOOL kEnableSkipButton = YES;
+static NSString *const kDateKeyPrefix = @"MGJPF.Wallet.Covermask.Date_";
+
 
 //根据frame获得偏移坐标
 CG_INLINE CGPoint CGPointGetShiftPoint(CGRect frame){
@@ -23,7 +26,66 @@ CG_INLINE CGPoint CGPointGetShiftPoint(CGRect frame){
 CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, CGPoint shiftPoint){
     CGPoint p; p.x = originPoint.x * scale + shiftPoint.x; p.y = originPoint.y * scale + shiftPoint.y; return p;
 }
+CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
+    return thing == nil ||
+    ([thing isEqual:[NSNull null]]) ||
+    ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
+    ([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
+}
 
+@interface MGJPFIntroguideImageCache : NSObject
++ (void)cacheImageWithURL:(NSString *)imageURL;
++ (UIImage *)imageFromCache:(NSString *)imageURL;
+@end
+
+@implementation MGJPFIntroguideImageCache
+//将图片存入缓存
++ (void)cacheImage:(UIImage *)image withURL:(NSString *)imageURL {
+    [self _createCacheDirectoryIfNeeded];
+    NSData *imageData = UIImagePNGRepresentation(image);
+    NSString *filepath = [self _imageCachedFilepathWithURL:imageURL];
+    [imageData writeToFile:filepath atomically:YES];
+}
+//下载图片并存入缓存
++ (void)cacheImageWithURL:(NSString *)imageURL {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
+        NSHTTPURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (resResult != nil && [response statusCode] == 200) {
+            [self _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
+        }
+    });
+}
+//取缓存（非下载）
++ (UIImage *)imageFromCache:(NSString *)imageURL {
+    NSString *filepath = [self _imageCachedFilepathWithURL:imageURL];
+    if (!MGJPF_IS_EMPTY(filepath) && ![[NSFileManager defaultManager] fileExistsAtPath:filepath]) {
+        return nil;
+    }
+    NSData *imageData = [NSData dataWithContentsOfFile:filepath];
+    UIImage *image = [UIImage imageWithData:imageData scale:2];
+    return image;
+}
+
+#pragma mark - Private Method
+
++ (void)_createCacheDirectoryIfNeeded {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/", NSHomeDirectory()];
+    if (!MGJPF_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
+        [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
++ (NSString *)_imageCachedFilepathWithURL:(NSString *)url {
+    NSString *urlMd5 = [url mgj_md5HashString];
+    NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/%@", NSHomeDirectory(), urlMd5];
+    return path;
+}
+@end
 
 @implementation UIBezierPath (start)
 //得到⭐️曲线
@@ -48,6 +110,51 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
 
 @end
 
+@implementation NSDate (MGJPFIntroguideDate)
+
++ (id)getDateWithYear:(NSInteger)year withMonth:(NSInteger)month withDay:(NSInteger)day {
+    //通过NSCALENDAR类来创建日期
+    NSDateComponents *comp = [[NSDateComponents alloc] init];
+    [comp setDay:day];
+    [comp setMonth:month];
+    [comp setYear:year];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *date = [calendar dateFromComponents:comp];
+    
+    return date;
+}
+
+- (NSInteger)numberOfNaturalDaysElapsed {
+    NSDate *fromDate = nil, *toDate = nil;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:[NSDate date]];
+    
+    NSDateComponents *components = [calendar components:NSDayCalendarUnit
+                                               fromDate:fromDate
+                                                 toDate:toDate
+                                                options:0];
+    return [components day];
+}
+
+- (NSInteger)daysToDate:(NSDate *)date; {
+    NSDate *fromDate = nil, *toDate = nil;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:date];
+    
+    NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:fromDate
+                                                 toDate:toDate options:0];
+    return [components day];
+}
+
++ (NSTimeInterval)timeStamp{
+    return [[NSDate date] timeIntervalSince1970];
+}
+@end
+
 @interface MGJPFIntroguideView ()
 /**  需要引导的view集合 */
 @property (nonatomic, copy) NSArray <UIView *> *masksItems;
@@ -58,10 +165,17 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
 /**
  *  需要展示的引导图片字典集合,其中字典key为imgae和point,分别表示要展示的引导图片和图片位置
  */
-@property (nonatomic, copy) NSArray <NSDictionary *> *guideImageItems;
+@property (nonatomic, strong) NSMutableArray <NSDictionary *> *guideImageItems;
 /**  遮盖层 */
 @property (nonatomic, strong) CAShapeLayer *mask;
-
+/**  图片地址 */
+@property (nonatomic, copy) NSString *imageURL;
+/**  图片点击地址 */
+@property (nonatomic, copy) NSString *redirectURL;
+/**  展示图片位置 */
+@property (nonatomic, assign) CGPoint singleShowPoint;
+/**  展示频率 */
+@property (nonatomic, assign) NSInteger showFrequency;
 @end
 
 
@@ -111,13 +225,14 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     self = [self initWithFrame:frame];
     if (self) {
         self.masksItems = markItems;
-        self.guideImageItems = guideImageItems;
+        [self.guideImageItems addObjectsFromArray:guideImageItems];
     }
     return self;
 }
 
 - (void)setup {
     // Default
+    self.autoCalculateGuidePoint = YES;
     self.animationDuration = kAnimationDuration;
     self.cutoutRadius = kCutoutRadius;
     self.maxLblWidth = kMaxLblWidth;
@@ -134,10 +249,6 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     // 设置显示图片
     [self addSubview:self.guideImageView];
     
-    // 点击事件
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
-    [self addGestureRecognizer:tapGestureRecognizer];
-    
     // Hide until unvoked
     self.hidden = YES;
 }
@@ -148,11 +259,23 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
 }
 
 - (void)loadGuideImageItem:(NSArray <__kindof NSDictionary *> *)guideImageItems {
-    self.guideImageItems = guideImageItems;
+    [self.guideImageItems addObjectsFromArray:guideImageItems];
 }
 
 - (void)loadDescriptionItems:(NSArray<__kindof NSString *>  *)descriptionItems {
     self.descptionItems = descriptionItems;
+}
+- (void)loadGuideImageUrl:(NSString *)imageURL withPoint:(CGPoint)imagePoint redirectURL:(NSString *)redirectURL withFrequency:(NSInteger)days {
+    self.imageURL = imageURL;
+    self.redirectURL = redirectURL;
+    
+    if (![MGJPFIntroguideImageCache imageFromCache:imageURL]) {
+        [MGJPFIntroguideImageCache cacheImageWithURL:imageURL];
+    }
+    self.singleShowPoint = imagePoint;
+    @weakify(self);
+    [self addActionForView:self.guideImageView];
+    self.showFrequency = days;
 }
 #pragma mark - Navigation
 
@@ -161,12 +284,31 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     // Fade in self
     self.alpha = 1.0f;
     self.hidden = NO;
+    @weakify(self);
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
+                         @strongify(self);
                          self.alpha = 1.0f;
                      }
                      completion:^(BOOL finished) {
-                         [self goToCoachMarkIndexed:0];
+                         @strongify(self);
+                         [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
+                             do {
+                                 if (![MGJPFIntroguideImageCache imageFromCache:self.imageURL]) {
+                                     if (self.imageURL) {
+                                         [self cleanup];
+                                         break;
+                                     }
+                                 }
+                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
+                                 [self addGestureRecognizer:tapGestureRecognizer];
+                                 [self generateGuideImageIfNeeded];
+                                 [self goToCoachMarkIndexed:0];
+                             }while(0);
+                             
+                         } failureblock:^{
+                             [self cleanup];
+                         }];
                      }];
 }
 
@@ -174,6 +316,12 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
 - (void)animateGuideImgae:(UIImage *)guideImage withPoint:(CGPoint)point {
     self.guideImageView.image = guideImage;
     [self.guideImageView sizeToFit];
+    if (self.autoCalculateGuidePoint) {
+        CGFloat scale = [UIScreen mainScreen].bounds.size.width / 375;
+        CGFloat X = point.x;
+        X = (X/scale + self.guideImageView.width)*scale - self.guideImageView.width;
+        point = CGPointMake(X, point.y);
+    }
     self.guideImageView.frame = (CGRect){point,self.guideImageView.frame.size};
 }
 - (void)animateCutoutToRect:(CGRect)rect withShape:(MGJPFIntroguideShape)shape {
@@ -295,20 +443,79 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
         [self addSubview:self.btnSkipCoach];
     }
 }
+//根据展示频率检查是否需要展示引导层
+- (void)_checkNumberOfDaysElapsed:(NSInteger)days excuteBlock:(void (^)(void))block failureblock:(void (^)(void))failureblock{
+    NSDate *date = [self dateFromUserDefaults];
+    if (!date) {
+        if (block) {
+            block();
+        }
+    } else {
+        NSInteger es = [date numberOfNaturalDaysElapsed];
+        if (es >= days) {
+            if (block) {
+                block();
+            }
+        } else {
+            if (failureblock) {
+                failureblock();
+            }
+            [self saveTodayToUserDefaults];
+        }
+    }
+}
 
+- (NSDate *)dateFromUserDefaults {
+    NSDate *date = nil;
+    if (self.imageURL) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
+        date = [userDefaults objectForKey:key];
+    }
+    return date;
+}
+
+- (void)saveTodayToUserDefaults {
+    if (self.imageURL) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
+        [userDefaults setObject:[NSDate date] forKey:key];
+        [userDefaults synchronize];
+    }
+}
+//是否添加引导展示图片
+- (void)generateGuideImageIfNeeded {
+    UIImage *image = [MGJPFIntroguideImageCache imageFromCache:self.imageURL];
+    if (image) {
+        [self.guideImageItems addObject:@{@"image":image,@"point":[NSValue valueWithCGPoint:self.singleShowPoint]}];
+    }
+}
+//给view添加方法
+- (void)addActionForView:(UIView *)view {
+    view.userInteractionEnabled = YES;
+    [view addGestureRecognizer:({
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTouchGuideImage)];
+        tap;
+    })];
+}
 
 #pragma mark - event Response
-
+//用户点击背景
 - (void)userDidTap:(UITapGestureRecognizer *)recognizer {
     // Go to the next coach mark
     [self goToCoachMarkIndexed:(markIndex+1)];
 }
-
+//跳过
 - (void)skipCoach {
     [self goToCoachMarkIndexed:self.coachMarks.count];
 }
-
-
+//展示引导
+- (void)didTouchGuideImage {
+    if (!MGJPF_IS_EMPTY(self.redirectURL)) {
+        [MGJRouter openURL:self.redirectURL];
+    }
+    [self cleanup];
+}
 #pragma mark - Cleanup
 
 - (void)cleanup {
@@ -316,16 +523,18 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     if ([self.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
         [self.delegate coachMarksViewWillCleanup:self];
     }
-    
-    // Fade out self
+    @weakify(self);
+    // 消失
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
+                         @strongify(self);
                          self.alpha = 0.0f;
                      }
                      completion:^(BOOL finished) {
+                         @strongify(self);
                          // Remove self
                          [self removeFromSuperview];
-                         
+                         [self saveTodayToUserDefaults];
                          // Delegate (coachMarksViewDidCleanup:)
                          if ([self.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
                              [self.delegate coachMarksViewDidCleanup:self];
@@ -341,7 +550,7 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
         [self.delegate coachMarksView:self didNavigateToIndex:markIndex];
     }
 }
-#pragma mark - Accessor 
+#pragma mark - Accessor
 - (UILabel *)lblCaption {
     if (!_lblCaption) {
         _lblCaption = [[UILabel alloc] initWithFrame:(CGRect){{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}}];
@@ -402,6 +611,12 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     return _guideImageView;
 }
 
+- (NSMutableArray *)guideImageItems {
+    if (!_guideImageItems) {
+        _guideImageItems = [NSMutableArray array];
+    }
+    return _guideImageItems;
+}
+
+
 @end
-
-

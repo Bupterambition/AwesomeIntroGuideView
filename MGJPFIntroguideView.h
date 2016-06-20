@@ -50,15 +50,17 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
 @property (nonatomic, strong) UILabel *lblContinue;
 /**  展示的款图形状,目前有四种模式 ，默认是矩形展示*/
 @property (nonatomic, assign) MGJPFIntroguideShape guideShape;
+/**  自动计算引导页上面的展示图片的位置,主要用于适配不同屏幕*/
+@property (nonatomic, assign) BOOL autoCalculateGuidePoint;
 /**
  *  根据传入的复合字典数组创建引导页
  *
  *  @param frame 引导的frame
  *  @param marks 字典类型数组 格式参考：字典格式参考
-     {@"rect": [NSValue valueWithCGRect:(CGRect){{0,0},{45,45}}],
-      @"caption": @"Helpful navigation menu",
-      @"shape": @"circle"//可以不加
-     }
+ {@"rect": [NSValue valueWithCGRect:(CGRect){{0,0},{45,45}}],
+ @"caption": @"Helpful navigation menu",
+ @"shape": @"circle"//可以不加
+ }
  *
  *  @return 引导页
  */
@@ -101,6 +103,16 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
  *  @param guideImageItems 引导图片字典集合
  */
 - (void)loadGuideImageItem:(NSArray <__kindof NSDictionary *> *)guideImageItems;
+
+/**
+ *  导入引导展示图片的url地址 展现的位置 点击后的连接 以及出现频率
+ *
+ *  @param imageURL    图片地址
+ *  @param imagePoint  图片位置
+ *  @param redirectURL 点击连接
+ *  @param days        展示间隔
+ */
+- (void)loadGuideImageUrl:(NSString *)imageURL withPoint:(CGPoint)imagePoint redirectURL:(NSString *)redirectURL withFrequency:(NSInteger)days;
 /**
  *  开启引导动画,可以通过设置animationDuration来控制动画展现出来的时间
  */
