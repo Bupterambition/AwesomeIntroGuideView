@@ -384,7 +384,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
                                  [strongSelf addGestureRecognizer:tapGestureRecognizer];
                                  [strongSelf generateGuideImageIfNeeded];
                                  [strongSelf goToCoachMarkIndexed:0];
-                             }while(0);
+                             }while(NO);
                              
                          } failureblock:^{
                              __weak __typeof (weakSelf) strongSelf = weakSelf;
