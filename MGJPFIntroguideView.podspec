@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name         = "MGJPFIntroguideView"
+  s.name         = "MGJPFIntroGuideView"
   s.version      = "1.0.0"
   s.summary      = "一个好用的用户指导页"
   s.description  = <<-DESC

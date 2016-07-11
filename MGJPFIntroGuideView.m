@@ -352,6 +352,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
                              do {
                                  if (![MGJPFIntroGuideImageCache imageFromCache:strongSelf.imageURL]) {
                                      if (strongSelf.imageURL) {
+                                         [strongSelf saveNoDate];
                                          [strongSelf cleanup];
                                          break;
                                      }
@@ -506,8 +507,8 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if (!date) {
         do {
             if ([self isNeedShow] && days) {
-                !block?:block();
                 [self saveTodayToUserDefaults];
+                !block?:block();
                 break;
             }
             !failureblock?:failureblock();
@@ -582,7 +583,12 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 //展示引导
 - (void)didTouchGuideImage {
     if (!MGJPF_IS_EMPTY(self.redirectURL)) {
-        [MGJRouter openURL:self.redirectURL];
+        BOOL open = [MGJRouter canOpenURL:self.redirectURL];
+        if (open) {
+            [MGJRouter openURL:self.redirectURL];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.redirectURL]];
+        }
     }
     [self cleanup];
 }

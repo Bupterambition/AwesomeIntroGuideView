@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <MGJPFIntroguideView/MGJPFIntroguideView.h>
 
+static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/upload_ifrggojzmq4wmmruhezdambqmeyde_483x337.png";
+
 @interface CollectionViewCell : UICollectionViewCell
 
 @end
@@ -42,9 +44,29 @@
 - (void)viewDidLayoutSubviews {
     if (self.coachMarksShown == NO  && self.introduceArray.count) {
         // 展示引导层
+        switch (self.type) {
+            case IntroGuideType_0: {
+                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Square;
+                
+                break;
+            }
+            case IntroGuideType_1: {
+                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Circle;
+                break;
+            }
+            case IntroGuideType_2: {
+                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Star;
+                break;
+            }
+            case IntroGuideType_3: {
+                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Other;
+                break;
+            }
+        }
+        
         self.coachMarksShown = YES;
         [self.coachMarksView loadMarks:self.introduceArray];
-        self.coachMarksView.showFrequency = 1;
+        [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"https://www.baidu.com" withFrequency:1];
         [self.coachMarksView start];
     }
 }
@@ -62,7 +84,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    if (indexPath.row % 2 == 0) {
+    if (indexPath.row == 5) {
         [self.introduceArray addObject:cell];
     }
     cell.backgroundColor = [UIColor colorWithRed:arc4random()%100/100. green:arc4random()%100/100. blue:arc4random()%100/100. alpha:arc4random()%100/100.];
