@@ -11,6 +11,7 @@
 #import <sys/xattr.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <MGJRouter/MGJRouter.h>
+
 static const CGFloat kAnimationDuration = 0.3f;
 static const CGFloat kCutoutRadius = 2.0f;
 static const CGFloat kMaxLblWidth = 230.0f;
@@ -28,6 +29,7 @@ CG_INLINE CGPoint CGPointGetShiftPoint(CGRect frame){
 CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, CGPoint shiftPoint){
     CGPoint p; p.x = originPoint.x * scale + shiftPoint.x; p.y = originPoint.y * scale + shiftPoint.y; return p;
 }
+//判断对象是否为空
 CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     return thing == nil ||
     ([thing isEqual:[NSNull null]]) ||
@@ -230,9 +232,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 @property (nonatomic, copy) NSArray <NSString *> *descptionItems;
 /**  需要展示的字典集合 */
 @property (nonatomic, copy) NSArray <NSDictionary *> *coachMarks;
-/**
- *  需要展示的引导图片字典集合,其中字典key为imgae和point,分别表示要展示的引导图片和图片位置
- */
+/**  需要展示的引导图片字典集合,其中字典key为imgae和point,分别表示要展示的引导图片和图片位置*/
 @property (nonatomic, strong) NSMutableArray <NSDictionary *> *guideImageItems;
 /**  遮盖层 */
 @property (nonatomic, strong) CAShapeLayer *mask;
@@ -244,6 +244,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 @property (nonatomic, assign) CGPoint singleShowPoint;
 /**  是否展示 */
 @property (nonatomic, assign, getter=isNeedShow) BOOL needShow;
+
 @end
 
 
@@ -501,6 +502,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if ([self.delegate respondsToSelector:@selector(coachMarksView:willNavigateToIndex:)]) {
         [self.delegate coachMarksView:self willNavigateToIndex:markIndex];
     }
+    !self.willNavgateBlock?:self.willNavgateBlock(self,markIndex);
     UIImage *guideImage = nil;
     CGPoint point = CGPointZero;
     if (index < self.guideImageItems.count) {
@@ -618,6 +620,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 #pragma mark - Cleanup
 
 - (void)cleanup {
+    !self.willCompletionBlock?:self.willCompletionBlock(self);
     // Delegate (coachMarksViewWillCleanup:)
     if ([self.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
         [self.delegate coachMarksViewWillCleanup:self];
@@ -644,6 +647,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 #pragma mark - Animation delegate
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    !self.didNavgateBlock?:self.didNavgateBlock(self,markIndex);
     // Delegate (coachMarksView:didNavigateTo:atIndex:)
     if ([self.delegate respondsToSelector:@selector(coachMarksView:didNavigateToIndex:)]) {
         [self.delegate coachMarksView:self didNavigateToIndex:markIndex];

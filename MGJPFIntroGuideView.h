@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, MGJPFLoadType) {
 };
 @class MGJPFIntroGuideView;
 typedef void(^MGJPFCompletionBlock)(MGJPFIntroGuideView *guideView);
+typedef void(^MGJPFWillNavigateBlock)(MGJPFIntroGuideView *guideView, NSUInteger indedx);
 
 @interface MGJPFIntroGuideView : UIView
 
@@ -59,8 +60,14 @@ typedef void(^MGJPFCompletionBlock)(MGJPFIntroGuideView *guideView);
 @property (nonatomic, assign) MGJPFLoadType loadType;
 /**  自动计算引导页上面的展示图片的位置,主要用于适配不同屏幕*/
 @property (nonatomic, assign) BOOL autoCalculateGuidePoint;
+/**  即将完成时回调，可根据需求选择delegate或是block*/
+@property (nonatomic, copy) MGJPFCompletionBlock willCompletionBlock;
 /**  完成时回调，可根据需求选择delegate或是block*/
 @property (nonatomic, copy) MGJPFCompletionBlock completionBlock;
+/**  将要进行遮盖跳转时回调，可根据需求选择delegate或是block*/
+@property (nonatomic, copy) MGJPFWillNavigateBlock willNavgateBlock;
+/**  遮盖跳转完成时回调，可根据需求选择delegate或是block*/
+@property (nonatomic, copy) MGJPFWillNavigateBlock didNavgateBlock;
 
 /**
  *  根据传入的复合字典数组创建引导页
