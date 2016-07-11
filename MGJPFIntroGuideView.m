@@ -153,7 +153,8 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 #pragma Help class
 
 @interface MGJPFIntroGuideImageCache : NSObject
-+ (void)cacheImageWithURL:(NSString *)imageURL;
++ (void)cacheImageAsyncWithURL:(NSString *)imageURL;
++ (void)cacheImageSyncWithURL:(NSString *)imageURL;
 + (UIImage *)imageFromCache:(NSString *)imageURL;
 @end
 
@@ -165,9 +166,22 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSString *filepath = [self _imageCachedFilepathWithURL:imageURL];
     [imageData writeToFile:filepath atomically:YES];
 }
-//下载图片并存入缓存
-+ (void)cacheImageWithURL:(NSString *)imageURL {
+//异步下载图片并存入缓存
++ (void)cacheImageAsyncWithURL:(NSString *)imageURL {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
+        NSHTTPURLResponse *response = nil;
+        NSError *error = nil;
+        NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        if (resResult != nil && [response statusCode] == 200) {
+            [self _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
+        }
+    });
+}
+//同步下载图片并存入缓存
++ (void)cacheImageSyncWithURL:(NSString *)imageURL {
+    dispatch_async(dispatch_get_main_queue(), ^{
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
         NSHTTPURLResponse *response = nil;
         NSError *error = nil;
@@ -228,7 +242,6 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 @property (nonatomic, copy) NSString *redirectURL;
 /**  展示图片位置 */
 @property (nonatomic, assign) CGPoint singleShowPoint;
-
 /**  是否展示 */
 @property (nonatomic, assign, getter=isNeedShow) BOOL needShow;
 @end
@@ -304,7 +317,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     // 设置显示图片
     [self addSubview:self.guideImageView];
     
-    // Hide until unvoked
+    // 直到调用时加载
     self.hidden = YES;
 }
 #pragma mark - public Method
@@ -326,7 +339,17 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     self.redirectURL = redirectURL;
     
     if (![MGJPFIntroGuideImageCache imageFromCache:imageURL]) {
-        [MGJPFIntroGuideImageCache cacheImageWithURL:imageURL];
+        switch (self.loadType) {
+            case MGJPFIntroLoad_Async: {
+                [MGJPFIntroGuideImageCache cacheImageAsyncWithURL:imageURL];
+                break;
+            }
+            case MGJPFIntroLoad_Sync: {
+                [MGJPFIntroGuideImageCache cacheImageSyncWithURL:imageURL];
+                break;
+            }
+        }
+        
     }
     self.singleShowPoint = imagePoint;
     
@@ -337,9 +360,9 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 - (void)start {
     NSAssert(self.superview, @"MGJPFIntroGuideView should have a superView");
-    // Fade in self
-    self.alpha = 1.0f;
+
     self.hidden = NO;
+    self.alpha = 0.0f;
     __weak __typeof (self) weakSelf = self;
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
@@ -506,7 +529,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSDate *date = [self dateFromUserDefaults];
     if (!date) {
         do {
-            if ([self isNeedShow] && days) {
+            if ([self isNeedShow]) {
                 [self saveTodayToUserDefaults];
                 !block?:block();
                 break;
@@ -614,6 +637,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
                          if ([strongSelf.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
                              [strongSelf.delegate coachMarksViewDidCleanup:strongSelf];
                          }
+                         !strongSelf.completionBlock?:strongSelf.completionBlock(strongSelf);
                      }];
 }
 

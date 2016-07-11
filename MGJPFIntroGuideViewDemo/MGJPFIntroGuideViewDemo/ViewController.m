@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import <MGJPFIntroguideView/MGJPFIntroguideView.h>
-
+//主要iOS9下使用http请求需要先在info.list中设置App Transport Security Settings的Allow Arbitrary Loads为YES
 static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/upload_ifrggojzmq4wmmruhezdambqmeyde_483x337.png";
 
 @interface CollectionViewCell : UICollectionViewCell
@@ -66,7 +66,8 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
         
         self.coachMarksShown = YES;
         [self.coachMarksView loadMarks:self.introduceArray];
-        [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"https://www.baidu.com" withFrequency:1];
+        self.coachMarksView.animationDuration = 1.3;
+        [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"https://www.baidu.com" withFrequency:0];
         [self.coachMarksView start];
     }
 }
@@ -123,6 +124,10 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
 - (MGJPFIntroGuideView *)coachMarksView {
     if (!_coachMarksView) {
         _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _coachMarksView.completionBlock = ^(MGJPFIntroGuideView *guideView){
+            NSLog(@"%@",guideView);
+        };
+        _coachMarksView.loadType = MGJPFIntroLoad_Sync;
     }
     return _coachMarksView;
 }

@@ -16,6 +16,12 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
     MGJPFIntroGuideShape_Star,
     MGJPFIntroGuideShape_Other
 };
+typedef NS_ENUM(NSUInteger, MGJPFLoadType) {
+    MGJPFIntroLoad_Async,
+    MGJPFIntroLoad_Sync,
+};
+@class MGJPFIntroGuideView;
+typedef void(^MGJPFCompletionBlock)(MGJPFIntroGuideView *guideView);
 
 @interface MGJPFIntroGuideView : UIView
 
@@ -27,6 +33,10 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
 @property (nonatomic, strong) UIImageView *guideImageView;
 /**  背景色 */
 @property (nonatomic, strong) UIColor *maskColor;
+/**  跳过🔘 */
+@property (nonatomic, strong) UIButton *btnSkipCoach;
+/**  继续🔘 */
+@property (nonatomic, strong) UILabel *lblContinue;
 /**  最初开始展示动画的时间 */
 @property (nonatomic, assign) CGFloat animationDuration;
 /**  展示框圆角 */
@@ -43,14 +53,15 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
 @property (nonatomic, assign, getter=isEnableSkipButton) BOOL enableSkipButton;
 /**  展示频率,单位天(默认为0，不展示) */
 @property (nonatomic, assign) NSInteger showFrequency;
-/**  跳过🔘 */
-@property (nonatomic, strong) UIButton *btnSkipCoach;
-/**  继续🔘 */
-@property (nonatomic, strong) UILabel *lblContinue;
 /**  展示的款图形状,目前有四种模式 ，默认是矩形展示*/
 @property (nonatomic, assign) MGJPFIntroGuideShape guideShape;
+/**  可以根据需求选择是同步下载指引图片还是异步下载指引图片*/
+@property (nonatomic, assign) MGJPFLoadType loadType;
 /**  自动计算引导页上面的展示图片的位置,主要用于适配不同屏幕*/
 @property (nonatomic, assign) BOOL autoCalculateGuidePoint;
+/**  完成时回调，可根据需求选择delegate或是block*/
+@property (nonatomic, copy) MGJPFCompletionBlock completionBlock;
+
 /**
  *  根据传入的复合字典数组创建引导页
  *
