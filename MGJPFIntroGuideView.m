@@ -39,7 +39,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma Foundation Class Category
 
-#pragma NSDate Category
+#pragma NSString Category
 
 @implementation NSString (MGJPFFoundation)
 
@@ -179,16 +179,14 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 //异步下载图片并存入缓存
 + (void)cacheImageAsyncWithURL:(NSString *)imageURL {
-    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
         NSHTTPURLResponse *response = nil;
         NSError *error = nil;
         NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if (resResult != nil && [response statusCode] == 200) {
-            [strongSelf _createCacheDirectoryIfNeeded];
-            [resResult writeToFile:[strongSelf _imageCachedFilepathWithURL:imageURL] atomically:YES];
+            [self _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
         }
     });
 }
@@ -240,7 +238,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 @interface MGJPFIntroGuideView ()
 /**  需要引导的view集合 */
-@property (nonatomic, copy) NSPointerArray *masksItems;
+@property (nonatomic, copy) NSMutableArray *masksItems;
 /**  需要表述的文字 */
 @property (nonatomic, copy) NSArray <NSString *> *descptionItems;
 /**  需要展示的字典集合 */
@@ -296,7 +294,13 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 - (instancetype)initWithFrame:(CGRect)frame loadCoachMarks:(NSArray<__kindof UIView *>  *)markItems andDescriptionItems:( NSArray<__kindof NSString *> *)descriptionItems {
     self = [self initWithFrame:frame];
     if (self) {
-        self.masksItems = markItems;
+        [markItems enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CGRect markRect = ({
+                CGRect frame = [obj.superview convertRect:obj.frame toView:self.superview];
+                CGRectInset(frame,self.insetSpacing,self.insetSpacing);
+            });
+            [self.masksItems addObject:[NSValue valueWithCGRect:markRect]];
+        }];
         self.descptionItems = descriptionItems;
         [self setup];
     }
@@ -306,7 +310,13 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 - (instancetype)initWithFrame:(CGRect)frame loadCoachMarks:( NSArray <__kindof UIView *> *)markItems andGuideImageItems:(NSArray<__kindof NSDictionary *>  * __nullable)guideImageItems {
     self = [self initWithFrame:frame];
     if (self) {
-        self.masksItems = markItems;
+        [markItems enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CGRect markRect = ({
+                CGRect frame = [obj.superview convertRect:obj.frame toView:self.superview];
+                CGRectInset(frame,self.insetSpacing,self.insetSpacing);
+            });
+            [self.masksItems addObject:[NSValue valueWithCGRect:markRect]];
+        }];
         [self.guideImageItems addObjectsFromArray:guideImageItems];
     }
     return self;
@@ -342,7 +352,11 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 - (void)loadMarks: (NSArray <__kindof UIView *> *)markItems {
     [markItems enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self.masksItems addPointer:(__bridge void * _Nullable)(obj)];
+        CGRect markRect = ({
+            CGRect frame = [obj.superview convertRect:obj.frame toView:self.superview];
+            CGRectInset(frame,self.insetSpacing,self.insetSpacing);
+        });
+        [self.masksItems addObject:[NSValue valueWithCGRect:markRect]];
     }];
 }
 
@@ -383,33 +397,27 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
     self.hidden = NO;
     self.alpha = 0.0f;
-    __weak __typeof (self) weakSelf = self;
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         __strong __typeof (weakSelf) strongSelf = weakSelf;
-                         strongSelf.alpha = 1.0f;
+                         self.alpha = 1.0f;
                      }
                      completion:^(BOOL finished) {
-                         __strong __typeof (weakSelf) strongSelf = weakSelf;
-                         [strongSelf _checkNumberOfDaysElapsed:strongSelf.showFrequency excuteBlock:^{
-                             __strong __typeof (weakSelf) strongSelf = weakSelf;
+                         [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
                              do {
-                                 if (![MGJPFIntroGuideImageCache imageFromCache:strongSelf.imageURL]) {
-                                     if (strongSelf.imageURL) {
-                                         [strongSelf saveNoDate];
-                                         [strongSelf cleanup];
+                                 if (![MGJPFIntroGuideImageCache imageFromCache:self.imageURL]) {
+                                     if (self.imageURL) {
+                                         [self saveNoDate];
+                                         [self cleanup];
                                          break;
                                      }
                                  }
-                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:strongSelf action:@selector(userDidTap:)];
-                                 [strongSelf addGestureRecognizer:tapGestureRecognizer];
-                                 [strongSelf generateGuideImageIfNeeded];
-                                 [strongSelf goToCoachMarkIndexed:0];
+                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
+                                 [self addGestureRecognizer:tapGestureRecognizer];
+                                 [self generateGuideImageIfNeeded];
+                                 [self goToCoachMarkIndexed:0];
                              }while(NO);
-                             
                          } failureblock:^{
-                             __strong __typeof (weakSelf) strongSelf = weakSelf;
-                             [strongSelf cleanup];
+                             [self cleanup];
                          }];
                      }];
 }
@@ -456,7 +464,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     anim.delegate = self;
     anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     anim.duration = self.animationDuration;
-    anim.removedOnCompletion = NO;
+    anim.removedOnCompletion = YES;
     anim.fillMode = kCAFillModeForwards;
     anim.fromValue = (__bridge id)(self.mask.path);
     anim.toValue = (__bridge id)(maskPath.CGPath);
@@ -477,10 +485,10 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     
     // Animate the caption label
     self.lblCaption.frame = (CGRect) {{x, y}, self.lblCaption.frame.size};
-    __weak typeof(self) weakSelf = self;
+    
     [UIView animateWithDuration:0.3f animations:^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        strongSelf.lblCaption.alpha = 1.0f;
+       
+        self.lblCaption.alpha = 1.0f;
     }];
 }
 #pragma mark - private Method
@@ -512,11 +520,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
         if (index < self.descptionItems.count) {
             markCaption = self.descptionItems[index];
         }
-        markRect = ({
-            UIView *view = (__bridge_transfer UIView *)[self.masksItems pointerAtIndex:index];
-            CGRect frame = [view.superview convertRect:view.frame toView:self.superview];
-            CGRectInset(frame,self.insetSpacing,self.insetSpacing);
-        });
+        markRect = [(NSValue *)self.masksItems[index] CGRectValue];
     } else {
         return;
     }
@@ -646,22 +650,19 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if ([self.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
         [self.delegate coachMarksViewWillCleanup:self];
     }
-    __weak __typeof (self) weakSelf = self;;
     // 消失
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         __strong __typeof (weakSelf) strongSelf = weakSelf;
-                         strongSelf.alpha = 0.0f;
+                         self.alpha = 0.0f;
                      }
                      completion:^(BOOL finished) {
-                         __strong __typeof (weakSelf) strongSelf = weakSelf;
                          // Remove self
-                         [strongSelf removeFromSuperview];
+                         [self removeFromSuperview];
                          // Delegate (coachMarksViewDidCleanup:)
-                         if ([strongSelf.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
-                             [strongSelf.delegate coachMarksViewDidCleanup:strongSelf];
+                         if ([self.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
+                             [self.delegate coachMarksViewDidCleanup:self];
                          }
-                         !strongSelf.completionBlock?:strongSelf.completionBlock(strongSelf);
+                         !self.completionBlock?:self.completionBlock(self);
                      }];
 }
 
@@ -676,9 +677,9 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 #pragma mark - Accessor
 
-- (NSPointerArray *)masksItems {
+- (NSMutableArray *)masksItems {
     if (!_masksItems) {
-        _masksItems = [NSPointerArray weakObjectsPointerArray];
+        _masksItems = [NSMutableArray array];
     }
     return _masksItems;
 }

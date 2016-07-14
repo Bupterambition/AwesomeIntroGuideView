@@ -77,10 +77,6 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     // Dispose of any resources that can be recreated.
 }
 
-- (void)dealloc {
-    [self.introduceArray removeAllObjects];
-    self.introduceArray = nil;
-}
 
 #pragma mark - UICollectionViewDataSource
 
@@ -90,7 +86,7 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    if (indexPath.row == 5) {
+    if (indexPath.row %5 == 0 && self.introduceArray.count <=3) {
         [self.introduceArray addObject:cell];
     }
     cell.backgroundColor = [UIColor colorWithRed:arc4random()%100/100. green:arc4random()%100/100. blue:arc4random()%100/100. alpha:arc4random()%100/100.];
@@ -130,7 +126,7 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     if (!_coachMarksView) {
         _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _coachMarksView.completionBlock = ^(MGJPFIntroGuideView *guideView){
-            NSLog(@"%@",guideView);
+//            NSLog(@"%@",guideView);
         };
         _coachMarksView.loadType = MGJPFIntroLoad_Sync;
     }

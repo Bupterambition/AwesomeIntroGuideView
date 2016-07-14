@@ -167,6 +167,16 @@ typedef void(^MGJPFWillNavigateBlock)(MGJPFIntroGuideView *guideView, NSUInteger
  *  @param coachMarksView 引导页
  */
 - (void)coachMarksViewDidCleanup:(MGJPFIntroGuideView *)coachMarksView;
+/**
+ *  从collection或是TableView中获取Cell
+ *
+ *  @param scrollView tableview Or collection
+ *  @param index      索引
+ *
+ *  @return 获取的cell
+ */
+
+- (nullable __kindof UIView *)getCellFromCollectionOrTableView:(nonnull __kindof UIScrollView *)scrollView withIndexPath:(NSIndexPath *)index;
 
 @end
 NS_ASSUME_NONNULL_END
