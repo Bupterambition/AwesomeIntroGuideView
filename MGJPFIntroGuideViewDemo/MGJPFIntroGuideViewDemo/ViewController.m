@@ -77,6 +77,11 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [self.introduceArray removeAllObjects];
+    self.introduceArray = nil;
+}
+
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

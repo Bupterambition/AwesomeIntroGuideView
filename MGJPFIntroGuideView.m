@@ -158,6 +158,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 + (void)cacheImageAsyncWithURL:(NSString *)imageURL;
 + (void)cacheImageSyncWithURL:(NSString *)imageURL;
 + (UIImage *)imageFromCache:(NSString *)imageURL;
++ (void)cleanAllImage;
 @end
 
 @implementation MGJPFIntroGuideImageCache
@@ -167,6 +168,14 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSData *imageData = UIImagePNGRepresentation(image);
     NSString *filepath = [self _imageCachedFilepathWithURL:imageURL];
     [imageData writeToFile:filepath atomically:YES];
+}
+
++ (void)cleanAllImage {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/", NSHomeDirectory()];
+    if (!MGJPF_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
+        [fileManager removeItemAtPath:path error:nil];
+    }
 }
 //异步下载图片并存入缓存
 + (void)cacheImageAsyncWithURL:(NSString *)imageURL {
@@ -231,7 +240,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 @interface MGJPFIntroGuideView ()
 /**  需要引导的view集合 */
-@property (nonatomic, copy) NSArray <UIView *> *masksItems;
+@property (nonatomic, copy) NSPointerArray *masksItems;
 /**  需要表述的文字 */
 @property (nonatomic, copy) NSArray <NSString *> *descptionItems;
 /**  需要展示的字典集合 */
@@ -325,10 +334,16 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     // 直到调用时加载
     self.hidden = YES;
 }
+
+- (void)dealloc {
+    
+}
 #pragma mark - public Method
 
 - (void)loadMarks: (NSArray <__kindof UIView *> *)markItems {
-    self.masksItems = markItems;
+    [markItems enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.masksItems addPointer:(__bridge void * _Nullable)(obj)];
+    }];
 }
 
 - (void)loadGuideImageItem:(NSArray <__kindof NSDictionary *> *)guideImageItems {
@@ -498,7 +513,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
             markCaption = self.descptionItems[index];
         }
         markRect = ({
-            UIView *view = self.masksItems[index];
+            UIView *view = (__bridge_transfer UIView *)[self.masksItems pointerAtIndex:index];
             CGRect frame = [view.superview convertRect:view.frame toView:self.superview];
             CGRectInset(frame,self.insetSpacing,self.insetSpacing);
         });
@@ -660,6 +675,15 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     }
 }
 #pragma mark - Accessor
+
+- (NSPointerArray *)masksItems {
+    if (!_masksItems) {
+        _masksItems = [NSPointerArray weakObjectsPointerArray];
+    }
+    return _masksItems;
+}
+
+
 - (UILabel *)lblCaption {
     if (!_lblCaption) {
         _lblCaption = [[UILabel alloc] initWithFrame:(CGRect) {{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}}];
