@@ -170,27 +170,31 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 //异步下载图片并存入缓存
 + (void)cacheImageAsyncWithURL:(NSString *)imageURL {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
         NSHTTPURLResponse *response = nil;
         NSError *error = nil;
         NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if (resResult != nil && [response statusCode] == 200) {
-            [self _createCacheDirectoryIfNeeded];
-            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
+            [strongSelf _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[strongSelf _imageCachedFilepathWithURL:imageURL] atomically:YES];
         }
     });
 }
 //同步下载图片并存入缓存
 + (void)cacheImageSyncWithURL:(NSString *)imageURL {
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
         NSHTTPURLResponse *response = nil;
         NSError *error = nil;
         NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if (resResult != nil && [response statusCode] == 200) {
-            [self _createCacheDirectoryIfNeeded];
-            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
+            [strongSelf _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[strongSelf _imageCachedFilepathWithURL:imageURL] atomically:YES];
         }
     });
 }
@@ -367,12 +371,13 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     __weak __typeof (self) weakSelf = self;
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         __weak __typeof (weakSelf) strongSelf = weakSelf;
+                         __strong __typeof (weakSelf) strongSelf = weakSelf;
                          strongSelf.alpha = 1.0f;
                      }
                      completion:^(BOOL finished) {
-                         __weak __typeof (weakSelf) strongSelf = weakSelf;
-                         [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
+                         __strong __typeof (weakSelf) strongSelf = weakSelf;
+                         [strongSelf _checkNumberOfDaysElapsed:strongSelf.showFrequency excuteBlock:^{
+                             __strong __typeof (weakSelf) strongSelf = weakSelf;
                              do {
                                  if (![MGJPFIntroGuideImageCache imageFromCache:strongSelf.imageURL]) {
                                      if (strongSelf.imageURL) {
@@ -388,7 +393,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
                              }while(NO);
                              
                          } failureblock:^{
-                             __weak __typeof (weakSelf) strongSelf = weakSelf;
+                             __strong __typeof (weakSelf) strongSelf = weakSelf;
                              [strongSelf cleanup];
                          }];
                      }];
@@ -457,9 +462,10 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     
     // Animate the caption label
     self.lblCaption.frame = (CGRect) {{x, y}, self.lblCaption.frame.size};
-    
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.3f animations:^{
-        self.lblCaption.alpha = 1.0f;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.lblCaption.alpha = 1.0f;
     }];
 }
 #pragma mark - private Method
@@ -629,11 +635,11 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     // 消失
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         __weak __typeof (weakSelf) strongSelf = weakSelf;
+                         __strong __typeof (weakSelf) strongSelf = weakSelf;
                          strongSelf.alpha = 0.0f;
                      }
                      completion:^(BOOL finished) {
-                         __weak __typeof (weakSelf) strongSelf = weakSelf;
+                         __strong __typeof (weakSelf) strongSelf = weakSelf;
                          // Remove self
                          [strongSelf removeFromSuperview];
                          // Delegate (coachMarksViewDidCleanup:)
