@@ -1,0 +1,496 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8A3056669E3FD553660AB85C /* libPods-MGJPFIntroGuideViewDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E50A7E66FF888BA0F8549130 /* libPods-MGJPFIntroGuideViewDemo.a */; };
+		C4120AF31D38E02B009854F7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4120AF21D38E02B009854F7 /* main.m */; };
+		C4120AF61D38E02B009854F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4120AF51D38E02B009854F7 /* AppDelegate.m */; };
+		C4120AF91D38E02B009854F7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4120AF81D38E02B009854F7 /* ViewController.m */; };
+		C4120AFC1D38E02B009854F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4120AFA1D38E02B009854F7 /* Main.storyboard */; };
+		C4120AFE1D38E02B009854F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4120AFD1D38E02B009854F7 /* Assets.xcassets */; };
+		C4120B011D38E02B009854F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4120AFF1D38E02B009854F7 /* LaunchScreen.storyboard */; };
+		C4120B0C1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4120B0B1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C4120B081D38E02B009854F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C4120AE61D38E02B009854F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C4120AED1D38E02B009854F7;
+			remoteInfo = MGJPFIntroGuideViewDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		97A8E97D84DBE027F3871940 /* Pods-MGJPFIntroGuideViewDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MGJPFIntroGuideViewDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-MGJPFIntroGuideViewDemo/Pods-MGJPFIntroGuideViewDemo.release.xcconfig"; sourceTree = "<group>"; };
+		C4120AEE1D38E02B009854F7 /* MGJPFIntroGuideViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MGJPFIntroGuideViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4120AF21D38E02B009854F7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C4120AF41D38E02B009854F7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C4120AF51D38E02B009854F7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C4120AF71D38E02B009854F7 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		C4120AF81D38E02B009854F7 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		C4120AFB1D38E02B009854F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C4120AFD1D38E02B009854F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4120B001D38E02B009854F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C4120B021D38E02B009854F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4120B071D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MGJPFIntroGuideViewDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C4120B0B1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MGJPFIntroGuideViewDemoTests.m; sourceTree = "<group>"; };
+		C4120B0D1D38E02B009854F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E50A7E66FF888BA0F8549130 /* libPods-MGJPFIntroGuideViewDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MGJPFIntroGuideViewDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEA1D10E5941EE922AD4E560 /* Pods-MGJPFIntroGuideViewDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MGJPFIntroGuideViewDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MGJPFIntroGuideViewDemo/Pods-MGJPFIntroGuideViewDemo.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C4120AEB1D38E02B009854F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A3056669E3FD553660AB85C /* libPods-MGJPFIntroGuideViewDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4120B041D38E02B009854F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5435A8D6F8EADBD31AAF269B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E50A7E66FF888BA0F8549130 /* libPods-MGJPFIntroGuideViewDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		60E6E28AC521FAD3899ADB9F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EEA1D10E5941EE922AD4E560 /* Pods-MGJPFIntroGuideViewDemo.debug.xcconfig */,
+				97A8E97D84DBE027F3871940 /* Pods-MGJPFIntroGuideViewDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		C4120AE51D38E02B009854F7 = {
+			isa = PBXGroup;
+			children = (
+				C4120AF01D38E02B009854F7 /* MGJPFIntroGuideViewDemo */,
+				C4120B0A1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests */,
+				C4120AEF1D38E02B009854F7 /* Products */,
+				60E6E28AC521FAD3899ADB9F /* Pods */,
+				5435A8D6F8EADBD31AAF269B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		C4120AEF1D38E02B009854F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C4120AEE1D38E02B009854F7 /* MGJPFIntroGuideViewDemo.app */,
+				C4120B071D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C4120AF01D38E02B009854F7 /* MGJPFIntroGuideViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				C4120AF41D38E02B009854F7 /* AppDelegate.h */,
+				C4120AF51D38E02B009854F7 /* AppDelegate.m */,
+				C4120AF71D38E02B009854F7 /* ViewController.h */,
+				C4120AF81D38E02B009854F7 /* ViewController.m */,
+				C4120AFA1D38E02B009854F7 /* Main.storyboard */,
+				C4120AFD1D38E02B009854F7 /* Assets.xcassets */,
+				C4120AFF1D38E02B009854F7 /* LaunchScreen.storyboard */,
+				C4120B021D38E02B009854F7 /* Info.plist */,
+				C4120AF11D38E02B009854F7 /* Supporting Files */,
+			);
+			path = MGJPFIntroGuideViewDemo;
+			sourceTree = "<group>";
+		};
+		C4120AF11D38E02B009854F7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C4120AF21D38E02B009854F7 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4120B0A1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				C4120B0B1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.m */,
+				C4120B0D1D38E02B009854F7 /* Info.plist */,
+			);
+			path = MGJPFIntroGuideViewDemoTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C4120AED1D38E02B009854F7 /* MGJPFIntroGuideViewDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4120B101D38E02B009854F7 /* Build configuration list for PBXNativeTarget "MGJPFIntroGuideViewDemo" */;
+			buildPhases = (
+				8A662C643EB09FA3C7F1A5A3 /* 📦 Check Pods Manifest.lock */,
+				C4120AEA1D38E02B009854F7 /* Sources */,
+				C4120AEB1D38E02B009854F7 /* Frameworks */,
+				C4120AEC1D38E02B009854F7 /* Resources */,
+				38F8D0DE9D2C09BE002AA818 /* 📦 Embed Pods Frameworks */,
+				55FAE17EE7310303CA84A11F /* 📦 Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MGJPFIntroGuideViewDemo;
+			productName = MGJPFIntroGuideViewDemo;
+			productReference = C4120AEE1D38E02B009854F7 /* MGJPFIntroGuideViewDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C4120B061D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C4120B131D38E02B009854F7 /* Build configuration list for PBXNativeTarget "MGJPFIntroGuideViewDemoTests" */;
+			buildPhases = (
+				C4120B031D38E02B009854F7 /* Sources */,
+				C4120B041D38E02B009854F7 /* Frameworks */,
+				C4120B051D38E02B009854F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C4120B091D38E02B009854F7 /* PBXTargetDependency */,
+			);
+			name = MGJPFIntroGuideViewDemoTests;
+			productName = MGJPFIntroGuideViewDemoTests;
+			productReference = C4120B071D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C4120AE61D38E02B009854F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Senmiao;
+				TargetAttributes = {
+					C4120AED1D38E02B009854F7 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					C4120B061D38E02B009854F7 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = C4120AED1D38E02B009854F7;
+					};
+				};
+			};
+			buildConfigurationList = C4120AE91D38E02B009854F7 /* Build configuration list for PBXProject "MGJPFIntroGuideViewDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C4120AE51D38E02B009854F7;
+			productRefGroup = C4120AEF1D38E02B009854F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C4120AED1D38E02B009854F7 /* MGJPFIntroGuideViewDemo */,
+				C4120B061D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C4120AEC1D38E02B009854F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4120B011D38E02B009854F7 /* LaunchScreen.storyboard in Resources */,
+				C4120AFE1D38E02B009854F7 /* Assets.xcassets in Resources */,
+				C4120AFC1D38E02B009854F7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4120B051D38E02B009854F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38F8D0DE9D2C09BE002AA818 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MGJPFIntroGuideViewDemo/Pods-MGJPFIntroGuideViewDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55FAE17EE7310303CA84A11F /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MGJPFIntroGuideViewDemo/Pods-MGJPFIntroGuideViewDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A662C643EB09FA3C7F1A5A3 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C4120AEA1D38E02B009854F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4120AF91D38E02B009854F7 /* ViewController.m in Sources */,
+				C4120AF61D38E02B009854F7 /* AppDelegate.m in Sources */,
+				C4120AF31D38E02B009854F7 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C4120B031D38E02B009854F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C4120B0C1D38E02B009854F7 /* MGJPFIntroGuideViewDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C4120B091D38E02B009854F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C4120AED1D38E02B009854F7 /* MGJPFIntroGuideViewDemo */;
+			targetProxy = C4120B081D38E02B009854F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C4120AFA1D38E02B009854F7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4120AFB1D38E02B009854F7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C4120AFF1D38E02B009854F7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C4120B001D38E02B009854F7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C4120B0E1D38E02B009854F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		C4120B0F1D38E02B009854F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C4120B111D38E02B009854F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEA1D10E5941EE922AD4E560 /* Pods-MGJPFIntroGuideViewDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = MGJPFIntroGuideViewDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mogu.MGJPFIntroGuideViewDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C4120B121D38E02B009854F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 97A8E97D84DBE027F3871940 /* Pods-MGJPFIntroGuideViewDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = MGJPFIntroGuideViewDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mogu.MGJPFIntroGuideViewDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C4120B141D38E02B009854F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MGJPFIntroGuideViewDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mogu.MGJPFIntroGuideViewDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MGJPFIntroGuideViewDemo.app/MGJPFIntroGuideViewDemo";
+			};
+			name = Debug;
+		};
+		C4120B151D38E02B009854F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = MGJPFIntroGuideViewDemoTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Mogu.MGJPFIntroGuideViewDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MGJPFIntroGuideViewDemo.app/MGJPFIntroGuideViewDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C4120AE91D38E02B009854F7 /* Build configuration list for PBXProject "MGJPFIntroGuideViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4120B0E1D38E02B009854F7 /* Debug */,
+				C4120B0F1D38E02B009854F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4120B101D38E02B009854F7 /* Build configuration list for PBXNativeTarget "MGJPFIntroGuideViewDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4120B111D38E02B009854F7 /* Debug */,
+				C4120B121D38E02B009854F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C4120B131D38E02B009854F7 /* Build configuration list for PBXNativeTarget "MGJPFIntroGuideViewDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4120B141D38E02B009854F7 /* Debug */,
+				C4120B151D38E02B009854F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C4120AE61D38E02B009854F7 /* Project object */;
+}

@@ -1,0 +1,16 @@
+PODS:
+  - MGJPFIntroguideView (1.0.0)
+
+DEPENDENCIES:
+  - MGJPFIntroguideView (from `../`)
+
+EXTERNAL SOURCES:
+  MGJPFIntroguideView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  MGJPFIntroguideView: bb6ffb82a02618f2d691fc541262605668c78167
+
+PODFILE CHECKSUM: 2bbe5bdedc74078db108cbf8d20949f24aa50667
+
+COCOAPODS: 1.0.0
