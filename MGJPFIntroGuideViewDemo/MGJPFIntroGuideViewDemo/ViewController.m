@@ -34,6 +34,12 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     [self.view addSubview:self.collectionView];
     self.coachMarksView.animationDuration = 0.3;
     [self.navigationController.view addSubview:self.coachMarksView];
+    self.navigationItem.titleView =({
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.text = @"MGJPFIntroGuide";
+        [label sizeToFit];
+        label;
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -63,10 +69,11 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
                 break;
             }
         }
-        
         self.coachMarksShown = YES;
+        [self.introduceArray addObject:self.navigationItem.titleView];
+        [self.introduceArray addObject:[[self.navigationController.navigationBar valueForKey:@"itemStack"][0] valueForKey:@"backButtonView"]];
         [self.coachMarksView loadMarks:self.introduceArray];
-        self.coachMarksView.animationDuration = 1.3;
+        self.coachMarksView.animationDuration = 0.3;
         [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"https://www.baidu.com" withFrequency:0];
         [self.coachMarksView start];
     }
@@ -86,7 +93,7 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    if (indexPath.row %5 == 0 && self.introduceArray.count <=3) {
+    if (indexPath.row %5 == 0 && self.introduceArray.count <=3 && indexPath.row != 0) {
         [self.introduceArray addObject:cell];
     }
     cell.backgroundColor = [UIColor colorWithRed:arc4random()%100/100. green:arc4random()%100/100. blue:arc4random()%100/100. alpha:arc4random()%100/100.];
@@ -126,7 +133,16 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     if (!_coachMarksView) {
         _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _coachMarksView.completionBlock = ^(MGJPFIntroGuideView *guideView){
-//            NSLog(@"%@",guideView);
+            NSLog(@"%@",guideView);
+        };
+        _coachMarksView.willCompletionBlock = ^(MGJPFIntroGuideView *guideView){
+            NSLog(@"%@",guideView);
+        };
+        _coachMarksView.didNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+            NSLog(@"%@",guideView);
+        };
+        _coachMarksView.willNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+            NSLog(@"%@",guideView);
         };
         _coachMarksView.loadType = MGJPFIntroLoad_Sync;
     }

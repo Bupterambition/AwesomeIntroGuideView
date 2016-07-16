@@ -238,7 +238,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 @interface MGJPFIntroGuideView ()
 /**  需要引导的view集合 */
-@property (nonatomic, copy) NSMutableArray *masksItems;
+@property (nonatomic, copy) NSMutableArray <NSValue *> *masksItems;
 /**  需要表述的文字 */
 @property (nonatomic, copy) NSArray <NSString *> *descptionItems;
 /**  需要展示的字典集合 */
@@ -394,7 +394,6 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 - (void)start {
     NSAssert(self.superview, @"MGJPFIntroGuideView should have a superView");
-
     self.hidden = NO;
     self.alpha = 0.0f;
     [UIView animateWithDuration:self.animationDuration
@@ -640,7 +639,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.redirectURL]];
         }
     }
-    [self cleanup];
+//    [self cleanup];
 }
 #pragma mark - Cleanup
 
@@ -704,6 +703,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
         _mask = [CAShapeLayer layer];
         [_mask setFillRule:kCAFillRuleEvenOdd];
         [_mask setFillColor:[[UIColor colorWithHue:0.0f saturation:0.0f brightness:0.0f alpha:0.8f] CGColor]];
+        _mask.path = [UIBezierPath bezierPathWithRect:self.bounds].CGPath;
     }
     return _mask;
 }
