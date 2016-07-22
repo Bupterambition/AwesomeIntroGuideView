@@ -1,20 +1,22 @@
 //
-//  MGJPFIntroguideView.m
+//  MGJPFIntroGuideView.m
 //  Animation
 //
 //  Created by Senmiao on 16/6/16.
 //  Copyright © 2016年 juangua. All rights reserved.
 //
 
-#import "MGJPFIntroguideView.h"
+#import "MGJPFIntroGuideView.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import <sys/xattr.h>
+#import <CommonCrypto/CommonDigest.h>
+#import <MGJRouter/MGJRouter.h>
 static const CGFloat kAnimationDuration = 0.3f;
 static const CGFloat kCutoutRadius = 2.0f;
 static const CGFloat kMaxLblWidth = 230.0f;
 static const CGFloat kLblSpacing = 35.0f;
-static const BOOL kEnableContinueLabel = YES;
-static const BOOL kEnableSkipButton = YES;
+static const BOOL kEnableContinueLabel = NO;
+static const BOOL kEnableSkipButton = NO;
 static NSString *const kDateKeyPrefix = @"MGJPF.Wallet.Covermask.Date_";
 
 
@@ -33,12 +35,129 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     ([thing respondsToSelector:@selector(count)]  && [(NSArray *)thing count] == 0);
 }
 
-@interface MGJPFIntroguideImageCache : NSObject
+#pragma Foundation Class Category
+
+#pragma NSDate Category
+
+@implementation NSString (MGJPFFoundation)
+
+- (NSString *)mgj_md5HashString
+{
+    // Create pointer to the string as UTF8
+    const char* ptr = [self UTF8String];
+    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+    
+    // Create 16 byte MD5 hash value, store in buffer
+    CC_MD5(ptr, (int)strlen(ptr), md5Buffer);
+    
+    // Convert MD5 value in the buffer to NSString of hex values
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x",md5Buffer[i]];
+    }
+    
+    return output;
+}
+
+@end
+
+#pragma NSDate Category
+
+@implementation NSDate (MGJPFIntroguideDate)
+
++ (id)getDateWithYear:(NSInteger)year withMonth:(NSInteger)month withDay:(NSInteger)day {
+    //通过NSCALENDAR类来创建日期
+    NSDateComponents *comp = [[NSDateComponents alloc] init];
+    [comp setDay:day];
+    [comp setMonth:month];
+    [comp setYear:year];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDate *date = [calendar dateFromComponents:comp];
+    
+    return date;
+}
+
+- (NSInteger)numberOfNaturalDaysElapsed {
+    NSDate *fromDate = nil, *toDate = nil;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:[NSDate date]];
+    
+    NSDateComponents *components = [calendar components:NSDayCalendarUnit
+                                               fromDate:fromDate
+                                                 toDate:toDate
+                                                options:0];
+    return [components day];
+}
+
+- (NSInteger)daysToDate:(NSDate *)date; {
+    NSDate *fromDate = nil, *toDate = nil;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
+    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:date];
+    
+    NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:fromDate
+                                                 toDate:toDate options:0];
+    return [components day];
+}
+
++ (NSTimeInterval)timeStamp{
+    return [[NSDate date] timeIntervalSince1970];
+}
+
+@end
+
+#pragma UIBezierPath Category
+
+@implementation UIBezierPath (MGJPFFoundation)
+//得到⭐️曲线
++ (instancetype)bezierPathWithStarInRect:(CGRect)frame {
+    CGFloat edgeLength = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame));
+    CGFloat scale = edgeLength/100;
+    CGPoint shiftPoint = CGPointGetShiftPoint(frame);
+    UIBezierPath *starPath = [UIBezierPath bezierPath];
+    [starPath moveToPoint: CGPointMakeScaleAndShift(CGPointMake(50, 0),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(67.64, 25.72),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(97.55, 34.55),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(78.54, 59.27),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(79.39, 90.45),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(50, 80.01),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(20.61, 90.45),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(21.46, 59.27),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(2.45, 34.55),scale,shiftPoint)];
+    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(32.36, 25.72),scale,shiftPoint)];
+    [starPath closePath];
+    return starPath;
+}
+
+@end
+
+@implementation UIView (MGJPFIntroGuide)
+
+- (CGFloat)width {
+    return CGRectGetWidth(self.frame);
+}
+
+- (CGFloat)height {
+    return CGRectGetHeight(self.frame);
+}
+
+- (CGSize)size {
+    return self.frame.size;
+}
+
+@end
+
+#pragma Help class
+
+@interface MGJPFIntroGuideImageCache : NSObject
 + (void)cacheImageWithURL:(NSString *)imageURL;
 + (UIImage *)imageFromCache:(NSString *)imageURL;
 @end
 
-@implementation MGJPFIntroguideImageCache
+@implementation MGJPFIntroGuideImageCache
 //将图片存入缓存
 + (void)cacheImage:(UIImage *)image withURL:(NSString *)imageURL {
     [self _createCacheDirectoryIfNeeded];
@@ -85,77 +204,12 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/%@", NSHomeDirectory(), urlMd5];
     return path;
 }
-@end
-
-@implementation UIBezierPath (start)
-//得到⭐️曲线
-+ (instancetype)bezierPathWithStarInRect:(CGRect)frame {
-    CGFloat edgeLength = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame));
-    CGFloat scale = edgeLength/100;
-    CGPoint shiftPoint = CGPointGetShiftPoint(frame);
-    UIBezierPath *starPath = [UIBezierPath bezierPath];
-    [starPath moveToPoint: CGPointMakeScaleAndShift(CGPointMake(50, 0),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(67.64, 25.72),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(97.55, 34.55),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(78.54, 59.27),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(79.39, 90.45),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(50, 80.01),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(20.61, 90.45),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(21.46, 59.27),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(2.45, 34.55),scale,shiftPoint)];
-    [starPath addLineToPoint: CGPointMakeScaleAndShift(CGPointMake(32.36, 25.72),scale,shiftPoint)];
-    [starPath closePath];
-    return starPath;
-}
 
 @end
 
-@implementation NSDate (MGJPFIntroguideDate)
+#pragma Main class
 
-+ (id)getDateWithYear:(NSInteger)year withMonth:(NSInteger)month withDay:(NSInteger)day {
-    //通过NSCALENDAR类来创建日期
-    NSDateComponents *comp = [[NSDateComponents alloc] init];
-    [comp setDay:day];
-    [comp setMonth:month];
-    [comp setYear:year];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDate *date = [calendar dateFromComponents:comp];
-    
-    return date;
-}
-
-- (NSInteger)numberOfNaturalDaysElapsed {
-    NSDate *fromDate = nil, *toDate = nil;
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
-    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:[NSDate date]];
-    
-    NSDateComponents *components = [calendar components:NSDayCalendarUnit
-                                               fromDate:fromDate
-                                                 toDate:toDate
-                                                options:0];
-    return [components day];
-}
-
-- (NSInteger)daysToDate:(NSDate *)date; {
-    NSDate *fromDate = nil, *toDate = nil;
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&fromDate interval:NULL forDate:self];
-    [calendar rangeOfUnit:NSDayCalendarUnit startDate:&toDate interval:NULL forDate:date];
-    
-    NSDateComponents *components = [calendar components:NSDayCalendarUnit fromDate:fromDate
-                                                 toDate:toDate options:0];
-    return [components day];
-}
-
-+ (NSTimeInterval)timeStamp{
-    return [[NSDate date] timeIntervalSince1970];
-}
-@end
-
-@interface MGJPFIntroguideView ()
+@interface MGJPFIntroGuideView ()
 /**  需要引导的view集合 */
 @property (nonatomic, copy) NSArray <UIView *> *masksItems;
 /**  需要表述的文字 */
@@ -174,12 +228,13 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 @property (nonatomic, copy) NSString *redirectURL;
 /**  展示图片位置 */
 @property (nonatomic, assign) CGPoint singleShowPoint;
-/**  展示频率 */
-@property (nonatomic, assign) NSInteger showFrequency;
+
+/**  是否展示 */
+@property (nonatomic, assign, getter=isNeedShow) BOOL needShow;
 @end
 
 
-@implementation MGJPFIntroguideView {
+@implementation MGJPFIntroGuideView {
     NSUInteger markIndex;
     NSDictionary *shapeMap;
 }
@@ -239,9 +294,9 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     self.lblSpacing = kLblSpacing;
     self.enableContinueLabel = kEnableContinueLabel;
     self.enableSkipButton = kEnableSkipButton;
-    shapeMap = @{@"circle":@(MGJPFIntroguideShape_Circle),
-                 @"square":@(MGJPFIntroguideShape_Square),
-                 @"star":@(MGJPFIntroguideShape_Star)};
+    shapeMap = @{@"circle":@(MGJPFIntroGuideShape_Circle),
+                 @"square":@(MGJPFIntroGuideShape_Square),
+                 @"star":@(MGJPFIntroGuideShape_Star)};
     // 设置遮盖层
     [self.layer addSublayer:self.mask];
     // 设置显示文字
@@ -265,49 +320,51 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 - (void)loadDescriptionItems:(NSArray<__kindof NSString *>  *)descriptionItems {
     self.descptionItems = descriptionItems;
 }
+
 - (void)loadGuideImageUrl:(NSString *)imageURL withPoint:(CGPoint)imagePoint redirectURL:(NSString *)redirectURL withFrequency:(NSInteger)days {
     self.imageURL = imageURL;
     self.redirectURL = redirectURL;
     
-    if (![MGJPFIntroguideImageCache imageFromCache:imageURL]) {
-        [MGJPFIntroguideImageCache cacheImageWithURL:imageURL];
+    if (![MGJPFIntroGuideImageCache imageFromCache:imageURL]) {
+        [MGJPFIntroGuideImageCache cacheImageWithURL:imageURL];
     }
     self.singleShowPoint = imagePoint;
-    @weakify(self);
+    
     [self addActionForView:self.guideImageView];
     self.showFrequency = days;
 }
 #pragma mark - Navigation
 
 - (void)start {
-    NSAssert(self.superview, @"MGJPFIntroguideView should have a superView");
+    NSAssert(self.superview, @"MGJPFIntroGuideView should have a superView");
     // Fade in self
     self.alpha = 1.0f;
     self.hidden = NO;
-    @weakify(self);
+    __weak __typeof (self) weakSelf = self;
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         @strongify(self);
-                         self.alpha = 1.0f;
+                         __weak __typeof (weakSelf) strongSelf = weakSelf;
+                         strongSelf.alpha = 1.0f;
                      }
                      completion:^(BOOL finished) {
-                         @strongify(self);
+                         __weak __typeof (weakSelf) strongSelf = weakSelf;
                          [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
                              do {
-                                 if (![MGJPFIntroguideImageCache imageFromCache:self.imageURL]) {
-                                     if (self.imageURL) {
-                                         [self cleanup];
+                                 if (![MGJPFIntroGuideImageCache imageFromCache:strongSelf.imageURL]) {
+                                     if (strongSelf.imageURL) {
+                                         [strongSelf cleanup];
                                          break;
                                      }
                                  }
-                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
-                                 [self addGestureRecognizer:tapGestureRecognizer];
-                                 [self generateGuideImageIfNeeded];
-                                 [self goToCoachMarkIndexed:0];
+                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:strongSelf action:@selector(userDidTap:)];
+                                 [strongSelf addGestureRecognizer:tapGestureRecognizer];
+                                 [strongSelf generateGuideImageIfNeeded];
+                                 [strongSelf goToCoachMarkIndexed:0];
                              }while(0);
                              
                          } failureblock:^{
-                             [self cleanup];
+                             __weak __typeof (weakSelf) strongSelf = weakSelf;
+                             [strongSelf cleanup];
                          }];
                      }];
 }
@@ -319,29 +376,29 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if (self.autoCalculateGuidePoint) {
         CGFloat scale = [UIScreen mainScreen].bounds.size.width / 375;
         CGFloat X = point.x;
-        X = (X/scale + self.guideImageView.width)*scale - self.guideImageView.width;
+        X = (X/scale + self.guideImageView.frame.size.width)*scale - self.guideImageView.frame.size.width;
         point = CGPointMake(X, point.y);
     }
-    self.guideImageView.frame = (CGRect){point,self.guideImageView.frame.size};
+    self.guideImageView.frame = (CGRect) {point,self.guideImageView.frame.size};
 }
-- (void)animateCutoutToRect:(CGRect)rect withShape:(MGJPFIntroguideShape)shape {
+- (void)animateCutoutToRect:(CGRect)rect withShape:(MGJPFIntroGuideShape)shape {
     // Define shape
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRect:self.bounds];
     UIBezierPath *cutoutPath;
     switch (shape) {
-        case MGJPFIntroguideShape_Square: {
+        case MGJPFIntroGuideShape_Square: {
             cutoutPath = [UIBezierPath bezierPathWithRect:rect];
             break;
         }
-        case MGJPFIntroguideShape_Circle: {
+        case MGJPFIntroGuideShape_Circle: {
             cutoutPath = [UIBezierPath bezierPathWithOvalInRect:rect];
             break;
         }
-        case MGJPFIntroguideShape_Star: {
+        case MGJPFIntroGuideShape_Star: {
             cutoutPath = [UIBezierPath bezierPathWithStarInRect:rect];
             break;
         }
-        case MGJPFIntroguideShape_Other: {
+        case MGJPFIntroGuideShape_Other: {
             cutoutPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.cutoutRadius];
             break;
         }
@@ -363,7 +420,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 - (void)animateCaptionLabelWith:(NSString *)description withRect:(CGRect)markRect {
     self.lblCaption.alpha = 0.0f;
-    self.lblCaption.frame = (CGRect){{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}};
+    self.lblCaption.frame = (CGRect) {{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}};
     self.lblCaption.text = description;
     [self.lblCaption sizeToFit];
     CGFloat y = markRect.origin.y + markRect.size.height + self.lblSpacing;
@@ -374,7 +431,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     CGFloat x = floorf((self.bounds.size.width - self.lblCaption.frame.size.width) / 2.0f);
     
     // Animate the caption label
-    self.lblCaption.frame = (CGRect){{x, y}, self.lblCaption.frame.size};
+    self.lblCaption.frame = (CGRect) {{x, y}, self.lblCaption.frame.size};
     
     [UIView animateWithDuration:0.3f animations:^{
         self.lblCaption.alpha = 1.0f;
@@ -394,12 +451,12 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSDictionary *markDef  = nil;
     NSString *markCaption = nil;
     CGRect markRect  = CGRectZero;
-    MGJPFIntroguideShape shape = self.guideShape;
+    MGJPFIntroGuideShape shape = self.guideShape;
     if (self.coachMarks.count) {
         markDef = [self.coachMarks objectAtIndex:index];
         markCaption = [markDef objectForKey:@"caption"];
         markRect = [[markDef objectForKey:@"rect"] CGRectValue];
-        if([[markDef allKeys] containsObject:@"shape"]) {
+        if ([[markDef allKeys] containsObject:@"shape"]) {
             NSString *currentShape = [markDef objectForKey:@"shape"];
             if ([[shapeMap allKeys] containsObject:currentShape]) {
                 shape = shapeMap[currentShape];
@@ -414,7 +471,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
             CGRect frame = [view.superview convertRect:view.frame toView:self.superview];
             CGRectInset(frame,self.insetSpacing,self.insetSpacing);
         });
-    }else {
+    } else {
         return;
     }
     if ([self.delegate respondsToSelector:@selector(coachMarksView:willNavigateToIndex:)]) {
@@ -447,45 +504,58 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 - (void)_checkNumberOfDaysElapsed:(NSInteger)days excuteBlock:(void (^)(void))block failureblock:(void (^)(void))failureblock{
     NSDate *date = [self dateFromUserDefaults];
     if (!date) {
-        if (block) {
-            block();
-        }
+        do {
+            if ([self isNeedShow] && days) {
+                !block?:block();
+                [self saveTodayToUserDefaults];
+                break;
+            }
+            !failureblock?:failureblock();
+        }while(NO);
     } else {
         NSInteger es = [date numberOfNaturalDaysElapsed];
         if (es >= days) {
-            if (block) {
-                block();
-            }
-        } else {
-            if (failureblock) {
-                failureblock();
-            }
+            !block?:block();
             [self saveTodayToUserDefaults];
+        } else {
+            !failureblock?:failureblock();
         }
     }
 }
 
 - (NSDate *)dateFromUserDefaults {
     NSDate *date = nil;
-    if (self.imageURL) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (!MGJPF_IS_EMPTY(self.imageURL)) {
         NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
-        date = [userDefaults objectForKey:key];
+        date = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    } else if ([self isNeedShow]) {
+        NSString *key = kDateKeyPrefix;
+        date = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     }
     return date;
 }
 
 - (void)saveTodayToUserDefaults {
-    if (self.imageURL) {
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if (!MGJPF_IS_EMPTY(self.imageURL)) {
         NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
-        [userDefaults setObject:[NSDate date] forKey:key];
-        [userDefaults synchronize];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    } else if ([self isNeedShow]) {
+        NSString *key = kDateKeyPrefix;
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+- (void)saveNoDate {
+    if (!MGJPF_IS_EMPTY(self.imageURL)) {
+        NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 //是否添加引导展示图片
 - (void)generateGuideImageIfNeeded {
-    UIImage *image = [MGJPFIntroguideImageCache imageFromCache:self.imageURL];
+    UIImage *image = [MGJPFIntroGuideImageCache imageFromCache:self.imageURL];
     if (image) {
         [self.guideImageItems addObject:@{@"image":image,@"point":[NSValue valueWithCGPoint:self.singleShowPoint]}];
     }
@@ -523,21 +593,20 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if ([self.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
         [self.delegate coachMarksViewWillCleanup:self];
     }
-    @weakify(self);
+    __weak __typeof (self) weakSelf = self;;
     // 消失
     [UIView animateWithDuration:self.animationDuration
                      animations:^{
-                         @strongify(self);
-                         self.alpha = 0.0f;
+                         __weak __typeof (weakSelf) strongSelf = weakSelf;
+                         strongSelf.alpha = 0.0f;
                      }
                      completion:^(BOOL finished) {
-                         @strongify(self);
+                         __weak __typeof (weakSelf) strongSelf = weakSelf;
                          // Remove self
-                         [self removeFromSuperview];
-                         [self saveTodayToUserDefaults];
+                         [strongSelf removeFromSuperview];
                          // Delegate (coachMarksViewDidCleanup:)
-                         if ([self.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
-                             [self.delegate coachMarksViewDidCleanup:self];
+                         if ([strongSelf.delegate respondsToSelector:@selector(coachMarksViewDidCleanup:)]) {
+                             [strongSelf.delegate coachMarksViewDidCleanup:strongSelf];
                          }
                      }];
 }
@@ -553,7 +622,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 #pragma mark - Accessor
 - (UILabel *)lblCaption {
     if (!_lblCaption) {
-        _lblCaption = [[UILabel alloc] initWithFrame:(CGRect){{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}}];
+        _lblCaption = [[UILabel alloc] initWithFrame:(CGRect) {{0.0f, 0.0f}, {self.maxLblWidth, 0.0f}}];
         self.lblCaption.backgroundColor = [UIColor clearColor];
         self.lblCaption.textColor = [UIColor whiteColor];
         self.lblCaption.font = [UIFont systemFontOfSize:20.0f];
@@ -583,7 +652,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     if (!_btnSkipCoach) {
         CGFloat lblContinueWidth = self.enableSkipButton ? (70.0/100.0) * self.bounds.size.width : self.bounds.size.width;
         CGFloat btnSkipWidth = self.bounds.size.width - lblContinueWidth;
-        _btnSkipCoach = [[UIButton alloc] initWithFrame:(CGRect){{lblContinueWidth, self.bounds.size.height - 30.0f}, {btnSkipWidth, 30.0f}}];
+        _btnSkipCoach = [[UIButton alloc] initWithFrame:(CGRect) {{lblContinueWidth, self.bounds.size.height - 30.0f}, {btnSkipWidth, 30.0f}}];
         [_btnSkipCoach addTarget:self action:@selector(skipCoach) forControlEvents:UIControlEventTouchUpInside];
         [_btnSkipCoach setTitle:@"跳过" forState:UIControlStateNormal];
         _btnSkipCoach.titleLabel.font = [UIFont boldSystemFontOfSize:13.0f];
@@ -595,7 +664,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 - (UILabel *)lblContinue {
     if (!_lblContinue) {
         CGFloat lblContinueWidth = self.enableSkipButton ? (70.0/100.0) * self.bounds.size.width : self.bounds.size.width;
-        _lblContinue = [[UILabel alloc] initWithFrame:(CGRect){{0, self.bounds.size.height - 30.0f}, {lblContinueWidth, 30.0f}}];
+        _lblContinue = [[UILabel alloc] initWithFrame:(CGRect) {{0, self.bounds.size.height - 30.0f}, {lblContinueWidth, 30.0f}}];
         _lblContinue.font = [UIFont boldSystemFontOfSize:13.0f];
         _lblContinue.textAlignment = NSTextAlignmentCenter;
         _lblContinue.text = @"点击继续";
@@ -606,7 +675,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 - (UIImageView *)guideImageView {
     if (!_guideImageView) {
-        _guideImageView = [[UIImageView alloc] init];
+        _guideImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     }
     return _guideImageView;
 }
@@ -618,5 +687,8 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     return _guideImageItems;
 }
 
+- (BOOL)isNeedShow {
+    return !MGJPF_IS_EMPTY(self.guideImageItems)||!MGJPF_IS_EMPTY(self.descptionItems)||!MGJPF_IS_EMPTY(self.masksItems);
+}
 
 @end

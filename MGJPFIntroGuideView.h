@@ -1,5 +1,5 @@
 //
-//  MGJPFIntroguideView.h
+//  MGJPFIntroGuideView.h
 //  Animation
 //
 //  Created by Senmiao on 16/6/16.
@@ -8,21 +8,18 @@
 
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
-@protocol MGJPFIntroguideViewDelegate;
+@protocol MGJPFIntroGuideViewDelegate;
 
-typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
-    MGJPFIntroguideShape_Square,
-    
-    MGJPFIntroguideShape_Circle,
-    
-    MGJPFIntroguideShape_Star,
-    
-    MGJPFIntroguideShape_Other
+typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
+    MGJPFIntroGuideShape_Square,
+    MGJPFIntroGuideShape_Circle,
+    MGJPFIntroGuideShape_Star,
+    MGJPFIntroGuideShape_Other
 };
 
-@interface MGJPFIntroguideView : UIView
+@interface MGJPFIntroGuideView : UIView
 
-@property (nonatomic, weak)   id<MGJPFIntroguideViewDelegate> delegate;
+@property (nonatomic, weak) id<MGJPFIntroGuideViewDelegate> delegate;
 
 /**  展示层文字标签 */
 @property (nonatomic, strong) UILabel *lblCaption;
@@ -44,12 +41,14 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
 @property (nonatomic, assign, getter=isEnableContinueLabel) BOOL enableContinueLabel;
 /**  是否显示跳过🔘 */
 @property (nonatomic, assign, getter=isEnableSkipButton) BOOL enableSkipButton;
+/**  展示频率,单位天(默认为0，不展示) */
+@property (nonatomic, assign) NSInteger showFrequency;
 /**  跳过🔘 */
 @property (nonatomic, strong) UIButton *btnSkipCoach;
 /**  继续🔘 */
 @property (nonatomic, strong) UILabel *lblContinue;
 /**  展示的款图形状,目前有四种模式 ，默认是矩形展示*/
-@property (nonatomic, assign) MGJPFIntroguideShape guideShape;
+@property (nonatomic, assign) MGJPFIntroGuideShape guideShape;
 /**  自动计算引导页上面的展示图片的位置,主要用于适配不同屏幕*/
 @property (nonatomic, assign) BOOL autoCalculateGuidePoint;
 /**
@@ -57,7 +56,7 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
  *
  *  @param frame 引导的frame
  *  @param marks 字典类型数组 格式参考：字典格式参考
- {@"rect": [NSValue valueWithCGRect:(CGRect){{0,0},{45,45}}],
+ {@"rect": [NSValue valueWithCGRect:(CGRect) {{0,0},{45,45}}],
  @"caption": @"Helpful navigation menu",
  @"shape": @"circle"//可以不加
  }
@@ -121,7 +120,7 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
 
 @end
 
-@protocol MGJPFIntroguideViewDelegate <NSObject>
+@protocol MGJPFIntroGuideViewDelegate <NSObject>
 
 @optional
 /**
@@ -130,26 +129,26 @@ typedef NS_ENUM(NSUInteger, MGJPFIntroguideShape) {
  *  @param coachMarksView 引导页
  *  @param index          待引导的索引
  */
-- (void)coachMarksView:(MGJPFIntroguideView*)coachMarksView willNavigateToIndex:(NSUInteger)index;
+- (void)coachMarksView:(MGJPFIntroGuideView *)coachMarksView willNavigateToIndex:(NSUInteger)index;
 /**
  *  已经展示引导页
  *
  *  @param coachMarksView 引导页
  *  @param index          当前引导的索引
  */
-- (void)coachMarksView:(MGJPFIntroguideView*)coachMarksView didNavigateToIndex:(NSUInteger)index;
+- (void)coachMarksView:(MGJPFIntroGuideView *)coachMarksView didNavigateToIndex:(NSUInteger)index;
 /**
  *  即将清除引导页
  *
  *  @param coachMarksView 引导页
  */
-- (void)coachMarksViewWillCleanup:(MGJPFIntroguideView*)coachMarksView;
+- (void)coachMarksViewWillCleanup:(MGJPFIntroGuideView *)coachMarksView;
 /**
  *  已经清除引导页
  *
  *  @param coachMarksView 引导页
  */
-- (void)coachMarksViewDidCleanup:(MGJPFIntroguideView*)coachMarksView;
+- (void)coachMarksViewDidCleanup:(MGJPFIntroGuideView *)coachMarksView;
 
 @end
 NS_ASSUME_NONNULL_END
