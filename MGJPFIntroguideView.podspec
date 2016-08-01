@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version      = "1.0.0"
   s.summary      = "一个好用的用户指导页"
   s.description  = <<-DESC
-                   一个好用的用户指导页
+                   一个好用的用户指导页，可以生成四种不同的捕获图形，提供了多种方法进行初始化，可以满足各种业务需求
                    DESC
 
   s.homepage     = "https://github.com/Bupterambition/MGJPFIntroguideView"

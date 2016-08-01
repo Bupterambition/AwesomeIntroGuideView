@@ -2,23 +2,18 @@ PODS:
   - MGJPFIntroGuideView (1.0.0):
     - MGJRouter
   - MGJRouter (0.9.1)
-  - UIImage-Categories (1.0.1)
 
 DEPENDENCIES:
   - MGJPFIntroGuideView (from `../`)
-  - UIImage-Categories (from `../../UIImage-Categories`)
 
 EXTERNAL SOURCES:
   MGJPFIntroGuideView:
     :path: ../
-  UIImage-Categories:
-    :path: ../../UIImage-Categories
 
 SPEC CHECKSUMS:
-  MGJPFIntroGuideView: c188d623a098fdabc5eb5fb5cefea8347622ab4c
+  MGJPFIntroGuideView: ea2d6b01e83bb7510beaff85ad974e7f98467db5
   MGJRouter: 73b7d7f9329186d670068888e56e095084208b4c
-  UIImage-Categories: 273739f4bcbfe10100ef7a5a52b1eb5248bdd745
 
-PODFILE CHECKSUM: 4c9764e73fc23846b748edea7dae37f9b5fcab26
+PODFILE CHECKSUM: c8632408375bc25a25704be6c977ea78a9d17341
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1
