@@ -22,6 +22,8 @@
         window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[TableViewController alloc] init]];
         window;
     });
+    int a=22;
+    while (a)a--;
     [self.window makeKeyAndVisible];
     return YES;
 }
