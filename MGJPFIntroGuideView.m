@@ -627,7 +627,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 //跳过
 - (void)skipCoach {
-    [self goToCoachMarkIndexed:self.coachMarks.count];
+    [self goToCoachMarkIndexed:MAX(self.coachMarks.count, self.masksItems.count)];
 }
 //展示引导
 - (void)didTouchGuideImage {
@@ -682,7 +682,6 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     }
     return _masksItems;
 }
-
 
 - (UILabel *)lblCaption {
     if (!_lblCaption) {
