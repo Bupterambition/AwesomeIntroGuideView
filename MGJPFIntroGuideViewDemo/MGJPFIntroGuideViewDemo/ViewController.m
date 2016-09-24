@@ -73,8 +73,8 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
         [self.introduceArray addObject:self.navigationItem.titleView];
         [self.introduceArray addObject:[[self.navigationController.navigationBar valueForKey:@"itemStack"][0] valueForKey:@"backButtonView"]];
         [self.coachMarksView loadMarks:self.introduceArray];
-        self.coachMarksView.animationDuration = 0.3;
-        [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"https://www.baidu.com" withFrequency:0];
+        self.coachMarksView.animationDuration = 0.2;
+        [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"http://www.mogujie.com/" withFrequency:0];
         [self.coachMarksView start];
     }
 }
