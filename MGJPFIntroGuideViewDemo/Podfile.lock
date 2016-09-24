@@ -1,5 +1,5 @@
 PODS:
-  - MGJPFIntroGuideView (1.0.0):
+  - MGJPFIntroGuideView (1.0.2):
     - MGJRouter
   - MGJRouter (0.9.1)
 
@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  MGJPFIntroGuideView: ea2d6b01e83bb7510beaff85ad974e7f98467db5
+  MGJPFIntroGuideView: f52d1989a061ec50790cfd5c84043f21b39d4594
   MGJRouter: 73b7d7f9329186d670068888e56e095084208b4c
 
 PODFILE CHECKSUM: c8632408375bc25a25704be6c977ea78a9d17341

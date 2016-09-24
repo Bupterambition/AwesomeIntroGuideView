@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MGJPFIntroGuideView"
-  s.version      = "1.0.1"
+  s.version      = "1.0.2"
   s.summary      = "一个好用的用户指导页"
   s.description  = <<-DESC
                    一个好用的用户指导页，可以生成四种不同的捕获图形，提供了多种方法进行初始化，可以满足各种业务需求
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.source       = { :git => "https://github.com/Bupterambition/MGJPFIntroguideView.git", :tag => "v1.0.1" }
+  s.source       = { :git => "https://github.com/Bupterambition/MGJPFIntroguideView.git", :tag => "1.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
