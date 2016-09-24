@@ -19,7 +19,7 @@ MGJPFIntroGuideView is available through [CocoaPods](http://cocoapods.org). To i
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'WSCoachMarksView'
+pod 'MGJPFIntroguideView'
 ```
 ### Source files
 
