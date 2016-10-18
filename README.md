@@ -155,4 +155,4 @@ senmiao, senmiao@meili-inc.com
 
 ## License
 
-AwesomeCommand is available under the MIT license. See the LICENSE file for more info.
+MGJPFIntroGuideView is available under the MIT license. See the LICENSE file for more info.
