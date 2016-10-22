@@ -35,10 +35,6 @@ Create a new MGJPFIntroGuideView instance in your viewDidLoad or viewDidLayoutSu
 - (void)viewDidLayoutSubviews {
     if (self.coachMarksShown == NO  && self.introduceArray.count) {
         [self.coachMarksView loadMarks:self.introduceArray];
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSUInteger index = 0 ; index < self.introduceArray.count; index ++) {
-            [array addObject:[NSString stringWithFormat:@"this is the %ld picture",index]];
-        }
         [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"http://www.mogujie.com/" withFrequency:0];
         [self.coachMarksView start];
     }
