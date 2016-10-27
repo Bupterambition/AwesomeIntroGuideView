@@ -1,7 +1,0 @@
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, "7.0"
-
-target 'MGJPFIntroGuideViewDemo' do
-    pod 'MGJPFIntroGuideView',:path => '../'
-#    pod 'UIImage-Categories',:path => '../../UIImage-Categories'
-end

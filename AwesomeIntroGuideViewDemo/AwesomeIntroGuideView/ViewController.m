@@ -1,15 +1,15 @@
 //
 //  ViewController.m
-//  MGJPFIntroGuideViewDemo
+//  AwesomeIntroGuideViewDemo
 //
 //  Created by Senmiao on 16/7/15.
 //  Copyright © 2016年 Senmiao. All rights reserved.
 //
 
 #import "ViewController.h"
-#import <MGJPFIntroguideView/MGJPFIntroguideView.h>
+#import <AwesomeIntroGuideView/AwesomeIntroGuideView.h>
 //主要iOS9下使用http请求需要先在info.list中设置App Transport Security Settings的Allow Arbitrary Loads为YES
-static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/upload_ifrggojzmq4wmmruhezdambqmeyde_483x337.png";
+static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/idid_ifqtantemfstmzdemizdambqgyyde_483x337.png";
 
 @interface CollectionViewCell : UICollectionViewCell
 
@@ -22,7 +22,7 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
 @interface ViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *introduceArray;
-@property (nonatomic, strong) MGJPFIntroGuideView *coachMarksView;
+@property (nonatomic, strong) AwesomeIntroGuideView *coachMarksView;
 @property (nonatomic, assign) BOOL coachMarksShown;
 @end
 
@@ -129,19 +129,19 @@ static  NSString * const introGuideImgUrl = @"http://s17.mogucdn.com/p1/160620/u
     return _introduceArray;
 }
 
-- (MGJPFIntroGuideView *)coachMarksView {
+- (AwesomeIntroGuideView *)coachMarksView {
     if (!_coachMarksView) {
-        _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _coachMarksView.completionBlock = ^(MGJPFIntroGuideView *guideView){
+        _coachMarksView = [[AwesomeIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _coachMarksView.completionBlock = ^(AwesomeIntroGuideView *guideView){
             NSLog(@"%@",guideView);
         };
-        _coachMarksView.willCompletionBlock = ^(MGJPFIntroGuideView *guideView){
+        _coachMarksView.willCompletionBlock = ^(AwesomeIntroGuideView *guideView){
             NSLog(@"%@",guideView);
         };
-        _coachMarksView.didNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+        _coachMarksView.didNavgateBlock = ^(AwesomeIntroGuideView *guideView, NSUInteger indedx) {
             NSLog(@"%@",guideView);
         };
-        _coachMarksView.willNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+        _coachMarksView.willNavgateBlock = ^(AwesomeIntroGuideView *guideView, NSUInteger indedx) {
             NSLog(@"%@",guideView);
         };
         _coachMarksView.loadType = MGJPFIntroLoad_Sync;

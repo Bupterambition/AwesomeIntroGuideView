@@ -1,5 +1,5 @@
 //
-//  MGJPFIntroGuideView.h
+//  AwesomeIntroGuideView.h
 //  Animation
 //
 //  Created by Senmiao on 16/6/16.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
-@protocol MGJPFIntroGuideViewDelegate;
+@protocol AwesomeIntroGuideViewDelegate;
 
 typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
     MGJPFIntroGuideShape_Square,
@@ -20,13 +20,13 @@ typedef NS_ENUM(NSUInteger, MGJPFLoadType) {
     MGJPFIntroLoad_Async,
     MGJPFIntroLoad_Sync,
 };
-@class MGJPFIntroGuideView;
-typedef void(^MGJPFCompletionBlock)(MGJPFIntroGuideView *guideView);
-typedef void(^MGJPFWillNavigateBlock)(MGJPFIntroGuideView *guideView, NSUInteger indedx);
+@class AwesomeIntroGuideView;
+typedef void(^MGJPFCompletionBlock)(AwesomeIntroGuideView *guideView);
+typedef void(^MGJPFWillNavigateBlock)(AwesomeIntroGuideView *guideView, NSUInteger indedx);
 
-@interface MGJPFIntroGuideView : UIView
+@interface AwesomeIntroGuideView : UIView
 
-@property (nonatomic, weak) id<MGJPFIntroGuideViewDelegate> delegate;
+@property (nonatomic, weak) id<AwesomeIntroGuideViewDelegate> delegate;
 
 /**  展示层文字标签 */
 @property (nonatomic, strong) UILabel *lblCaption;
@@ -138,7 +138,7 @@ typedef void(^MGJPFWillNavigateBlock)(MGJPFIntroGuideView *guideView, NSUInteger
 
 @end
 
-@protocol MGJPFIntroGuideViewDelegate <NSObject>
+@protocol AwesomeIntroGuideViewDelegate <NSObject>
 
 @optional
 /**
@@ -147,26 +147,26 @@ typedef void(^MGJPFWillNavigateBlock)(MGJPFIntroGuideView *guideView, NSUInteger
  *  @param coachMarksView 引导页
  *  @param index          待引导的索引
  */
-- (void)coachMarksView:(MGJPFIntroGuideView *)coachMarksView willNavigateToIndex:(NSUInteger)index;
+- (void)coachMarksView:(AwesomeIntroGuideView *)coachMarksView willNavigateToIndex:(NSUInteger)index;
 /**
  *  已经展示引导页
  *
  *  @param coachMarksView 引导页
  *  @param index          当前引导的索引
  */
-- (void)coachMarksView:(MGJPFIntroGuideView *)coachMarksView didNavigateToIndex:(NSUInteger)index;
+- (void)coachMarksView:(AwesomeIntroGuideView *)coachMarksView didNavigateToIndex:(NSUInteger)index;
 /**
  *  即将清除引导页
  *
  *  @param coachMarksView 引导页
  */
-- (void)coachMarksViewWillCleanup:(MGJPFIntroGuideView *)coachMarksView;
+- (void)coachMarksViewWillCleanup:(AwesomeIntroGuideView *)coachMarksView;
 /**
  *  已经清除引导页
  *
  *  @param coachMarksView 引导页
  */
-- (void)coachMarksViewDidCleanup:(MGJPFIntroGuideView *)coachMarksView;
+- (void)coachMarksViewDidCleanup:(AwesomeIntroGuideView *)coachMarksView;
 /**
  *  从collection或是TableView中获取Cell
  *

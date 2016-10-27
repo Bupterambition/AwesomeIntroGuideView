@@ -1,12 +1,12 @@
 //
-//  MGJPFIntroGuideView.m
+//  AwesomeIntroGuideView.m
 //  Animation
 //
 //  Created by Senmiao on 16/6/16.
 //  Copyright © 2016年 juangua. All rights reserved.
 //
 
-#import "MGJPFIntroGuideView.h"
+#import "AwesomeIntroGuideView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <sys/xattr.h>
 #import <CommonCrypto/CommonDigest.h>
@@ -236,7 +236,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma Main class
 
-@interface MGJPFIntroGuideView ()
+@interface AwesomeIntroGuideView ()
 /**  需要引导的view集合 */
 @property (nonatomic, copy) NSMutableArray <NSValue *> *masksItems;
 /**  需要表述的文字 */
@@ -259,7 +259,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 @end
 
 
-@implementation MGJPFIntroGuideView {
+@implementation AwesomeIntroGuideView {
     NSUInteger markIndex;
     NSDictionary *shapeMap;
 }
@@ -393,7 +393,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 #pragma mark - Navigation
 
 - (void)start {
-    NSAssert(self.superview, @"MGJPFIntroGuideView should have a superView");
+    NSAssert(self.superview, @"AwesomeIntroGuideView should have a superView");
     self.hidden = NO;
     self.alpha = 0.0f;
     [UIView animateWithDuration:self.animationDuration

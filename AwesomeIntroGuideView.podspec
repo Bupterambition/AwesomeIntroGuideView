@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
-  s.name         = "MGJPFIntroGuideView"
-  s.version      = "1.0.2"
+  s.name         = "AwesomeIntroGuideView"
+  s.version      = "1.0.3"
   s.summary      = "一个好用的用户指导页"
   s.description  = <<-DESC
                    一个好用的用户指导页，可以生成四种不同的捕获图形，提供了多种方法进行初始化，可以满足各种业务需求
                    DESC
 
-  s.homepage     = "https://github.com/Bupterambition/MGJPFIntroguideView"
+  s.homepage     = "https://github.com/Bupterambition/AwesomeIntroguideView.git"
   s.license      = { :type => 'MIT', :text => <<-ENDOFEXT
                   Copyright (c) 2011 Masashi Ono.
                   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "MGJPFIntroGuideView/Classes/*.{h,m}"
+  s.source_files  = "AwesomeIntroGuideView/Classes/*.{h,m}"
 
 
 

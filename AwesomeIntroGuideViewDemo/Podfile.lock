@@ -1,0 +1,19 @@
+PODS:
+  - AwesomeIntroGuideView (1.0.3):
+    - MGJRouter
+  - MGJRouter (0.9.1)
+
+DEPENDENCIES:
+  - AwesomeIntroGuideView (from `../`)
+
+EXTERNAL SOURCES:
+  AwesomeIntroGuideView:
+    :path: ../
+
+SPEC CHECKSUMS:
+  AwesomeIntroGuideView: 0bf77c4431b537a148915721208433c1811b2881
+  MGJRouter: 73b7d7f9329186d670068888e56e095084208b4c
+
+PODFILE CHECKSUM: e0ede77cb24d7f670a623ab32190738cb83a7bfd
+
+COCOAPODS: 1.1.0.rc.2

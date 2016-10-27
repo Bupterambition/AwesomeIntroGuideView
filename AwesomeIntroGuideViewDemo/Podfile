@@ -1,0 +1,9 @@
+
+source 'http://gitlab.mogujie.org/ios-team/cocoapods-official-specs-mirror.git'
+source 'http://gitlab.mogujie.org/ios-team/mgjpodspecs.git'
+
+platform :ios, "7.0"
+
+target 'AwesomeIntroGuideView' do
+    pod 'AwesomeIntroGuideView',:path => '../'
+end

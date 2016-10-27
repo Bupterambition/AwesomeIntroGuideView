@@ -1,8 +1,8 @@
 //
 //  main.m
-//  MGJPFIntroGuideViewDemo
+//  AwesomeIntroGuideView
 //
-//  Created by Senmiao on 16/7/15.
+//  Created by Senmiao on 2016/10/27.
 //  Copyright © 2016年 Senmiao. All rights reserved.
 //
 
