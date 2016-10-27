@@ -6,9 +6,9 @@
 
 MGJPFIntroGuideView is an iOS drop-in class that displays user coach marks with a rectangular or star or circular cutout over an existing UI. This approach leverages your actual UI as part of the onboarding process for your user. Simply defining an array of views or dictionary (Hard code ) or rectangles (CGRect) and their accompanying captions.What's more, you can also define an extro display image to intro your view with url or local resource ,even you can add a click link on the guiding image.For example, if you defined the url of image - https://www.google.com , the user would click the guiding image your app will open https://www.google.com. As you can image,you can even define a route url of your app.
 
-![image](https://raw.githubusercontent.com/Bupterambition/MGJPFIntroguideView/master/MGJPFIntroGuideViewDemo/MGJPFIntroGuideViewDemoTests/star.gif)
-![image](https://raw.githubusercontent.com/Bupterambition/MGJPFIntroguideView/master/MGJPFIntroGuideViewDemo/MGJPFIntroGuideViewDemoTests/Rect.gif)
-![image](https://raw.githubusercontent.com/Bupterambition/MGJPFIntroguideView/master/MGJPFIntroGuideViewDemo/MGJPFIntroGuideViewDemoTests/circular.gif)
+![image](https://github.com/Bupterambition/AwesomeIntroguideView/blob/master/AwesomeIntroGuideViewDemo/AwesomeIntroGuideView/star.gif)
+![image](https://github.com/Bupterambition/AwesomeIntroguideView/blob/master/AwesomeIntroGuideViewDemo/AwesomeIntroGuideView/Rect.gif)
+![image](https://github.com/Bupterambition/AwesomeIntroguideView/blob/master/AwesomeIntroGuideViewDemo/AwesomeIntroGuideView/circular.gif)
 
 
 ## Installation
