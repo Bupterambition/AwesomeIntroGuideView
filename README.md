@@ -1,10 +1,10 @@
-# MGJPFIntroGuideView
+# AwesomeIntroGuideView
 
-[![Version](https://img.shields.io/cocoapods/v/MGJPFIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/MGJPFIntroGuideView)
-[![License](https://img.shields.io/cocoapods/l/MGJPFIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/MGJPFIntroGuideView)
-[![Platform](https://img.shields.io/cocoapods/p/MGJPFIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/MGJPFIntroGuideView)
+[![Version](https://img.shields.io/cocoapods/v/AwesomeIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/AwesomeIntroGuideView)
+[![License](https://img.shields.io/cocoapods/l/AwesomeIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/AwesomeIntroGuideView)
+[![Platform](https://img.shields.io/cocoapods/p/AwesomeIntroGuideView.svg?style=flat)](http://cocoapods.org/pods/AwesomeIntroGuideView)
 
-MGJPFIntroGuideView is an iOS drop-in class that displays user coach marks with a rectangular or star or circular cutout over an existing UI. This approach leverages your actual UI as part of the onboarding process for your user. Simply defining an array of views or dictionary (Hard code ) or rectangles (CGRect) and their accompanying captions.What's more, you can also define an extro display image to intro your view with url or local resource ,even you can add a click link on the guiding image.For example, if you defined the url of image - https://www.google.com , the user would click the guiding image your app will open https://www.google.com. As you can image,you can even define a route url of your app.
+AwesomeIntroGuideView is an iOS drop-in class that displays user coach marks with a rectangular or star or circular cutout over an existing UI. This approach leverages your actual UI as part of the onboarding process for your user. Simply defining an array of views or dictionary (Hard code ) or rectangles (CGRect) and their accompanying captions.What's more, you can also define an extro display image to intro your view with url or local resource ,even you can add a click link on the guiding image.For example, if you defined the url of image - https://www.google.com , the user would click the guiding image your app will open https://www.google.com. As you can image,you can even define a route url of your app.
 
 ![image](https://github.com/Bupterambition/AwesomeIntroguideView/blob/master/AwesomeIntroGuideViewDemo/AwesomeIntroGuideView/star.gif)
 ![image](https://github.com/Bupterambition/AwesomeIntroguideView/blob/master/AwesomeIntroGuideViewDemo/AwesomeIntroGuideView/Rect.gif)
@@ -15,20 +15,20 @@ MGJPFIntroGuideView is an iOS drop-in class that displays user coach marks with 
 
 ###CocoaPods
 
-MGJPFIntroGuideView is available through [CocoaPods](http://cocoapods.org). To install
+AwesomeIntroGuideView is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'MGJPFIntroguideView'
+pod 'AwesomeIntroguideView'
 ```
 ### Source files
 
-Alternatively, you can directly add the `MGJPFIntroGuideView.h` and `MGJPFIntroGuideView.m` source files to your project what's more you should add [MGJRouter](https://github.com/mogujie/MGJRouter) to your project.
+Alternatively, you can directly add the `AwesomeIntroGuideView.h` and `AwesomeIntroGuideView.m` source files to your project what's more you should add [MGJRouter](https://github.com/mogujie/MGJRouter) to your project.
 
 
 ## Example
 
-Create a new MGJPFIntroGuideView instance in your viewDidLoad or viewDidLayoutSubviews method and pass in an array of views or dictionaries.
+Create a new AwesomeIntroGuideView instance in your viewDidLoad or viewDidLayoutSubviews method and pass in an array of views or dictionaries.
 
 ```objc
 
@@ -57,9 +57,9 @@ Create a new MGJPFIntroGuideView instance in your viewDidLoad or viewDidLayoutSu
 
 #pragma mark - Accessor
 
-- (MGJPFIntroGuideView *)coachMarksView {
+- (AwesomeIntroGuideView *)coachMarksView {
     if (!_coachMarksView) {
-        _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _coachMarksView = [[AwesomeIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     }
     return _coachMarksView;
 }
@@ -104,37 +104,37 @@ if you want to control the frame of each coachMask,you can use the NSArray of NS
 			@"caption": @"Keep your guests informed with your wedding details"
 		}
 	];
-	MGJPFIntroGuide *coachMarksView = [[MGJPFIntroGuide alloc] initWithFrame:self.view.bounds coachMarks:coachMarks];
+	AwesomeIntroGuide *coachMarksView = [[AwesomeIntroGuide alloc] initWithFrame:self.view.bounds coachMarks:coachMarks];
 	[self.view addSubview:coachMarksView];
 	[coachMarksView start];
 }
 ```
-If you'd like to take a certain action when a specific coach mark comes into view, you can define the callback Block of MGJPFIntroGuideView
+If you'd like to take a certain action when a specific coach mark comes into view, you can define the callback Block of AwesomeIntroGuideView
 
 ```objc
 
 - (void)setUpCoachMarksViewCallBack {
-    self.coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.coachMarksView.completionBlock = ^(MGJPFIntroGuideView *guideView){
+    self.coachMarksView = [[AwesomeIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.coachMarksView.completionBlock = ^(AwesomeIntroGuideView *guideView){
         NSLog(@"%@",guideView);
     };
-    self.coachMarksView.willCompletionBlock = ^(MGJPFIntroGuideView *guideView){
+    self.coachMarksView.willCompletionBlock = ^(AwesomeIntroGuideView *guideView){
         NSLog(@"%@",guideView);
     };
-    self.coachMarksView.didNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+    self.coachMarksView.didNavgateBlock = ^(AwesomeIntroGuideView *guideView, NSUInteger indedx) {
         NSLog(@"%@",guideView);
     };
-    self.coachMarksView.willNavgateBlock = ^(MGJPFIntroGuideView *guideView, NSUInteger indedx) {
+    self.coachMarksView.willNavgateBlock = ^(AwesomeIntroGuideView *guideView, NSUInteger indedx) {
         NSLog(@"%@",guideView);
     };
 }
 
 #pragma mark - Accessor
 
-- (MGJPFIntroGuideView *)coachMarksView {
+- (AwesomeIntroGuideView *)coachMarksView {
     if (!_coachMarksView) {
-        _coachMarksView = [[MGJPFIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        _coachMarksView.loadType = MGJPFIntroLoad_Sync;
+        _coachMarksView = [[AwesomeIntroGuideView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _coachMarksView.loadType = AwesomeIntroLoad_Sync;
     }
     return _coachMarksView;
 }
@@ -151,4 +151,4 @@ senmiao, senmiao@meili-inc.com
 
 ## License
 
-MGJPFIntroGuideView is available under the MIT license. See the LICENSE file for more info.
+AwesomeIntroGuideView is available under the MIT license. See the LICENSE file for more info.
