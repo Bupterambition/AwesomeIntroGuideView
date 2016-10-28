@@ -147,7 +147,7 @@ just clone the repo , check the my code
 
 ## Author
 
-senmiao, senmiao@meili-inc.com
+bupterAmbition，bupterambition@gmail.com
 
 ## License
 
