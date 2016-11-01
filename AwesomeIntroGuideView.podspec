@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-  s.source       = { :git => "https://github.com/Bupterambition/MGJPFIntroguideView.git", :tag => "1.0.2" }
+  s.source       = { :git => "https://github.com/Bupterambition/MGJPFIntroguideView.git", :tag => "1.0.3" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
