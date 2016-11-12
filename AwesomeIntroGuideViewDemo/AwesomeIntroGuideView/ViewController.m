@@ -36,7 +36,7 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
     [self.navigationController.view addSubview:self.coachMarksView];
     self.navigationItem.titleView =({
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.text = @"MGJPFIntroGuide";
+        label.text = @"AwesomeIntroGuide";
         [label sizeToFit];
         label;
     });
@@ -52,20 +52,20 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
         // 展示引导层
         switch (self.type) {
             case IntroGuideType_0: {
-                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Square;
+                self.coachMarksView.guideShape = AwesomeIntroGuideShape_Square;
                 
                 break;
             }
             case IntroGuideType_1: {
-                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Circle;
+                self.coachMarksView.guideShape = AwesomeIntroGuideShape_Circle;
                 break;
             }
             case IntroGuideType_2: {
-                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Star;
+                self.coachMarksView.guideShape = AwesomeIntroGuideShape_Star;
                 break;
             }
             case IntroGuideType_3: {
-                self.coachMarksView.guideShape = MGJPFIntroGuideShape_Other;
+                self.coachMarksView.guideShape = AwesomeIntroGuideShape_Other;
                 break;
             }
         }
@@ -144,7 +144,7 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
         _coachMarksView.willNavgateBlock = ^(AwesomeIntroGuideView *guideView, NSUInteger indedx) {
             NSLog(@"%@",guideView);
         };
-        _coachMarksView.loadType = MGJPFIntroLoad_Sync;
+        _coachMarksView.loadType = AwesomeIntroLoad_Sync;
     }
     return _coachMarksView;
 }

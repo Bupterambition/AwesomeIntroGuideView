@@ -18,7 +18,7 @@ static const CGFloat kMaxLblWidth = 230.0f;
 static const CGFloat kLblSpacing = 35.0f;
 static const BOOL kEnableContinueLabel = NO;
 static const BOOL kEnableSkipButton = NO;
-static NSString *const kDateKeyPrefix = @"MGJPF.Wallet.Covermask.Date_";
+static NSString *const kDateKeyPrefix = @"Awesome.Wallet.Covermask.Date_";
 
 
 //根据frame获得偏移坐标
@@ -30,7 +30,7 @@ CG_INLINE CGPoint CGPointMakeScaleAndShift(CGPoint originPoint, CGFloat scale, C
     CGPoint p; p.x = originPoint.x * scale + shiftPoint.x; p.y = originPoint.y * scale + shiftPoint.y; return p;
 }
 //判断对象是否为空
-CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
+CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
     return thing == nil ||
     ([thing isEqual:[NSNull null]]) ||
     ([thing respondsToSelector:@selector(length)] && [(NSData *)thing length] == 0) ||
@@ -41,7 +41,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma NSString Category
 
-@implementation NSString (MGJPFFoundation)
+@implementation NSString (AwesomeFoundation)
 
 - (NSString *)mgj_md5HashString
 {
@@ -65,7 +65,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma NSDate Category
 
-@implementation NSDate (MGJPFIntroguideDate)
+@implementation NSDate (AwesomeIntroguideDate)
 
 + (id)getDateWithYear:(NSInteger)year withMonth:(NSInteger)month withDay:(NSInteger)day {
     //通过NSCALENDAR类来创建日期
@@ -113,7 +113,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma UIBezierPath Category
 
-@implementation UIBezierPath (MGJPFFoundation)
+@implementation UIBezierPath (AwesomeFoundation)
 //得到⭐️曲线
 + (instancetype)bezierPathWithStarInRect:(CGRect)frame {
     CGFloat edgeLength = MIN(CGRectGetWidth(frame), CGRectGetHeight(frame));
@@ -136,7 +136,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 @end
 
-@implementation UIView (MGJPFIntroGuide)
+@implementation UIView (AwesomeIntroGuide)
 
 - (CGFloat)width {
     return CGRectGetWidth(self.frame);
@@ -154,14 +154,14 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 #pragma Help class
 
-@interface MGJPFIntroGuideImageCache : NSObject
+@interface AwesomeIntroGuideImageCache : NSObject
 + (void)cacheImageAsyncWithURL:(NSString *)imageURL;
 + (void)cacheImageSyncWithURL:(NSString *)imageURL;
 + (UIImage *)imageFromCache:(NSString *)imageURL;
 + (void)cleanAllImage;
 @end
 
-@implementation MGJPFIntroGuideImageCache
+@implementation AwesomeIntroGuideImageCache
 //将图片存入缓存
 + (void)cacheImage:(UIImage *)image withURL:(NSString *)imageURL {
     [self _createCacheDirectoryIfNeeded];
@@ -173,7 +173,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 + (void)cleanAllImage {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/", NSHomeDirectory()];
-    if (!MGJPF_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
+    if (!Awesome_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
         [fileManager removeItemAtPath:path error:nil];
     }
 }
@@ -208,7 +208,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 //取缓存（非下载）
 + (UIImage *)imageFromCache:(NSString *)imageURL {
     NSString *filepath = [self _imageCachedFilepathWithURL:imageURL];
-    if (!MGJPF_IS_EMPTY(filepath) && ![[NSFileManager defaultManager] fileExistsAtPath:filepath]) {
+    if (!Awesome_IS_EMPTY(filepath) && ![[NSFileManager defaultManager] fileExistsAtPath:filepath]) {
         return nil;
     }
     NSData *imageData = [NSData dataWithContentsOfFile:filepath];
@@ -221,7 +221,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 + (void)_createCacheDirectoryIfNeeded {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = [NSString stringWithFormat:@"%@/Documents/Pay/Cache/", NSHomeDirectory()];
-    if (!MGJPF_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
+    if (!Awesome_IS_EMPTY(path) && ![fileManager fileExistsAtPath:path isDirectory:NULL]) {
         [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     }
 }
@@ -331,9 +331,9 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     self.lblSpacing = kLblSpacing;
     self.enableContinueLabel = kEnableContinueLabel;
     self.enableSkipButton = kEnableSkipButton;
-    shapeMap = @{@"circle":@(MGJPFIntroGuideShape_Circle),
-                 @"square":@(MGJPFIntroGuideShape_Square),
-                 @"star":@(MGJPFIntroGuideShape_Star)};
+    shapeMap = @{@"circle":@(AwesomeIntroGuideShape_Circle),
+                 @"square":@(AwesomeIntroGuideShape_Square),
+                 @"star":@(AwesomeIntroGuideShape_Star)};
     // 设置遮盖层
     [self.layer addSublayer:self.mask];
     // 设置显示文字
@@ -372,14 +372,14 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     self.imageURL = imageURL;
     self.redirectURL = redirectURL;
     
-    if (![MGJPFIntroGuideImageCache imageFromCache:imageURL]) {
+    if (![AwesomeIntroGuideImageCache imageFromCache:imageURL]) {
         switch (self.loadType) {
-            case MGJPFIntroLoad_Async: {
-                [MGJPFIntroGuideImageCache cacheImageAsyncWithURL:imageURL];
+            case AwesomeIntroLoad_Async: {
+                [AwesomeIntroGuideImageCache cacheImageAsyncWithURL:imageURL];
                 break;
             }
-            case MGJPFIntroLoad_Sync: {
-                [MGJPFIntroGuideImageCache cacheImageSyncWithURL:imageURL];
+            case AwesomeIntroLoad_Sync: {
+                [AwesomeIntroGuideImageCache cacheImageSyncWithURL:imageURL];
                 break;
             }
         }
@@ -403,7 +403,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
                      completion:^(BOOL finished) {
                          [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
                              do {
-                                 if (![MGJPFIntroGuideImageCache imageFromCache:self.imageURL]) {
+                                 if (![AwesomeIntroGuideImageCache imageFromCache:self.imageURL]) {
                                      if (self.imageURL) {
                                          [self saveNoDate];
                                          [self cleanup];
@@ -433,24 +433,24 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     }
     self.guideImageView.frame = (CGRect) {point,self.guideImageView.frame.size};
 }
-- (void)animateCutoutToRect:(CGRect)rect withShape:(MGJPFIntroGuideShape)shape {
+- (void)animateCutoutToRect:(CGRect)rect withShape:(AwesomeIntroGuideShape)shape {
     // Define shape
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRect:self.bounds];
     UIBezierPath *cutoutPath;
     switch (shape) {
-        case MGJPFIntroGuideShape_Square: {
+        case AwesomeIntroGuideShape_Square: {
             cutoutPath = [UIBezierPath bezierPathWithRect:rect];
             break;
         }
-        case MGJPFIntroGuideShape_Circle: {
+        case AwesomeIntroGuideShape_Circle: {
             cutoutPath = [UIBezierPath bezierPathWithOvalInRect:rect];
             break;
         }
-        case MGJPFIntroGuideShape_Star: {
+        case AwesomeIntroGuideShape_Star: {
             cutoutPath = [UIBezierPath bezierPathWithStarInRect:rect];
             break;
         }
-        case MGJPFIntroGuideShape_Other: {
+        case AwesomeIntroGuideShape_Other: {
             cutoutPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:self.cutoutRadius];
             break;
         }
@@ -504,7 +504,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     NSDictionary *markDef  = nil;
     NSString *markCaption = nil;
     CGRect markRect  = CGRectZero;
-    MGJPFIntroGuideShape shape = self.guideShape;
+    AwesomeIntroGuideShape shape = self.guideShape;
     if (self.coachMarks.count) {
         markDef = [self.coachMarks objectAtIndex:index];
         markCaption = [markDef objectForKey:@"caption"];
@@ -575,7 +575,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 
 - (NSDate *)dateFromUserDefaults {
     NSDate *date = nil;
-    if (!MGJPF_IS_EMPTY(self.imageURL)) {
+    if (!Awesome_IS_EMPTY(self.imageURL)) {
         NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
         date = [[NSUserDefaults standardUserDefaults] objectForKey:key];
     } else if ([self isNeedShow]) {
@@ -586,7 +586,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 
 - (void)saveTodayToUserDefaults {
-    if (!MGJPF_IS_EMPTY(self.imageURL)) {
+    if (!Awesome_IS_EMPTY(self.imageURL)) {
         NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
         [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:key];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -597,7 +597,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
     }
 }
 - (void)saveNoDate {
-    if (!MGJPF_IS_EMPTY(self.imageURL)) {
+    if (!Awesome_IS_EMPTY(self.imageURL)) {
         NSString *key = [kDateKeyPrefix stringByAppendingString:self.imageURL];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -605,7 +605,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 //是否添加引导展示图片
 - (void)generateGuideImageIfNeeded {
-    UIImage *image = [MGJPFIntroGuideImageCache imageFromCache:self.imageURL];
+    UIImage *image = [AwesomeIntroGuideImageCache imageFromCache:self.imageURL];
     if (image) {
         [self.guideImageItems addObject:@{@"image":image,@"point":[NSValue valueWithCGPoint:self.singleShowPoint]}];
     }
@@ -631,7 +631,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 //展示引导
 - (void)didTouchGuideImage {
-    if (!MGJPF_IS_EMPTY(self.redirectURL)) {
+    if (!Awesome_IS_EMPTY(self.redirectURL)) {
         BOOL open = [MGJRouter canOpenURL:self.redirectURL];
         if (open) {
             [MGJRouter openURL:self.redirectURL];
@@ -752,7 +752,7 @@ CG_INLINE BOOL MGJPF_IS_EMPTY(id thing) {
 }
 
 - (BOOL)isNeedShow {
-    return !MGJPF_IS_EMPTY(self.guideImageItems)||!MGJPF_IS_EMPTY(self.descptionItems)||!MGJPF_IS_EMPTY(self.masksItems);
+    return !Awesome_IS_EMPTY(self.guideImageItems)||!Awesome_IS_EMPTY(self.descptionItems)||!Awesome_IS_EMPTY(self.masksItems);
 }
 
 @end

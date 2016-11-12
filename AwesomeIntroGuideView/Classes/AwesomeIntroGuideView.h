@@ -10,19 +10,19 @@
 NS_ASSUME_NONNULL_BEGIN
 @protocol AwesomeIntroGuideViewDelegate;
 
-typedef NS_ENUM(NSUInteger, MGJPFIntroGuideShape) {
-    MGJPFIntroGuideShape_Square,
-    MGJPFIntroGuideShape_Circle,
-    MGJPFIntroGuideShape_Star,
-    MGJPFIntroGuideShape_Other
+typedef NS_ENUM(NSUInteger, AwesomeIntroGuideShape) {
+    AwesomeIntroGuideShape_Square,
+    AwesomeIntroGuideShape_Circle,
+    AwesomeIntroGuideShape_Star,
+    AwesomeIntroGuideShape_Other
 };
-typedef NS_ENUM(NSUInteger, MGJPFLoadType) {
-    MGJPFIntroLoad_Async,
-    MGJPFIntroLoad_Sync,
+typedef NS_ENUM(NSUInteger, AwesomeLoadType) {
+    AwesomeIntroLoad_Async,
+    AwesomeIntroLoad_Sync,
 };
 @class AwesomeIntroGuideView;
-typedef void(^MGJPFCompletionBlock)(AwesomeIntroGuideView *guideView);
-typedef void(^MGJPFWillNavigateBlock)(AwesomeIntroGuideView *guideView, NSUInteger indedx);
+typedef void(^AwesomeCompletionBlock)(AwesomeIntroGuideView *guideView);
+typedef void(^AwesomeWillNavigateBlock)(AwesomeIntroGuideView *guideView, NSUInteger indedx);
 
 @interface AwesomeIntroGuideView : UIView
 
@@ -55,19 +55,19 @@ typedef void(^MGJPFWillNavigateBlock)(AwesomeIntroGuideView *guideView, NSUInteg
 /**  展示频率,单位天(默认为0，不展示) */
 @property (nonatomic, assign) NSInteger showFrequency;
 /**  展示的款图形状,目前有四种模式 ，默认是矩形展示*/
-@property (nonatomic, assign) MGJPFIntroGuideShape guideShape;
+@property (nonatomic, assign) AwesomeIntroGuideShape guideShape;
 /**  可以根据需求选择是同步下载指引图片还是异步下载指引图片*/
-@property (nonatomic, assign) MGJPFLoadType loadType;
+@property (nonatomic, assign) AwesomeLoadType loadType;
 /**  自动计算引导页上面的展示图片的位置,主要用于适配不同屏幕*/
 @property (nonatomic, assign) BOOL autoCalculateGuidePoint;
 /**  即将完成时回调，可根据需求选择delegate或是block*/
-@property (nonatomic, copy) MGJPFCompletionBlock willCompletionBlock;
+@property (nonatomic, copy) AwesomeCompletionBlock willCompletionBlock;
 /**  完成时回调，可根据需求选择delegate或是block*/
-@property (nonatomic, copy) MGJPFCompletionBlock completionBlock;
+@property (nonatomic, copy) AwesomeCompletionBlock completionBlock;
 /**  将要进行遮盖跳转时回调，可根据需求选择delegate或是block*/
-@property (nonatomic, copy) MGJPFWillNavigateBlock willNavgateBlock;
+@property (nonatomic, copy) AwesomeWillNavigateBlock willNavgateBlock;
 /**  遮盖跳转完成时回调，可根据需求选择delegate或是block*/
-@property (nonatomic, copy) MGJPFWillNavigateBlock didNavgateBlock;
+@property (nonatomic, copy) AwesomeWillNavigateBlock didNavgateBlock;
 
 /**
  *  根据传入的复合字典数组创建引导页

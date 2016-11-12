@@ -17,6 +17,7 @@ DerivedData
 *.hmap
 *.ipa
 *.orig
+fastlane
 npm-debug.log
 xcshareddata
 # CocoaPods
