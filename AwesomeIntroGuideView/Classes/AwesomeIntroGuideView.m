@@ -194,14 +194,14 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 + (void)cacheImageSyncWithURL:(NSString *)imageURL {
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+        __strong typeof(weakSelf) self = weakSelf;
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:imageURL]];
         NSHTTPURLResponse *response = nil;
         NSError *error = nil;
         NSData *resResult = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
         if (resResult != nil && [response statusCode] == 200) {
-            [strongSelf _createCacheDirectoryIfNeeded];
-            [resResult writeToFile:[strongSelf _imageCachedFilepathWithURL:imageURL] atomically:YES];
+            [self _createCacheDirectoryIfNeeded];
+            [resResult writeToFile:[self _imageCachedFilepathWithURL:imageURL] atomically:YES];
         }
     });
 }
@@ -236,7 +236,12 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 
 #pragma Main class
 
+#if defined(__IPHONE_10_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0)
+@interface AwesomeIntroGuideView ()<CAAnimationDelegate>
+#else
 @interface AwesomeIntroGuideView ()
+#endif
+
 /**  需要引导的view集合 */
 @property (nonatomic, copy) NSMutableArray <NSValue *> *masksItems;
 /**  需要表述的文字 */
@@ -394,31 +399,32 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 
 - (void)start {
     NSAssert(self.superview, @"AwesomeIntroGuideView should have a superView");
-    self.hidden = NO;
-    self.alpha = 0.0f;
-    [UIView animateWithDuration:self.animationDuration
-                     animations:^{
-                         self.alpha = 1.0f;
-                     }
-                     completion:^(BOOL finished) {
-                         [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
-                             do {
-                                 if (![AwesomeIntroGuideImageCache imageFromCache:self.imageURL]) {
-                                     if (self.imageURL) {
-                                         [self saveNoDate];
-                                         [self cleanup];
-                                         break;
-                                     }
-                                 }
-                                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
-                                 [self addGestureRecognizer:tapGestureRecognizer];
-                                 [self generateGuideImageIfNeeded];
-                                 [self goToCoachMarkIndexed:0];
-                             }while(NO);
-                         } failureblock:^{
-                             [self cleanup];
-                         }];
-                     }];
+    [UIView animateWithDuration:1.0f animations:^{
+        //Just used for download guideView
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self _checkNumberOfDaysElapsed:self.showFrequency excuteBlock:^{
+                do {
+                    if (![AwesomeIntroGuideImageCache imageFromCache:self.imageURL]) {
+                        if (self.imageURL) {
+                            [self saveNoDate];
+                            [self cleanup];
+                            break;
+                        }
+                    }
+                    self.alpha = 1.f;
+                    self.hidden = NO;
+                    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userDidTap:)];
+                    [self addGestureRecognizer:tapGestureRecognizer];
+                    [self generateGuideImageIfNeeded];
+                    [self goToCoachMarkIndexed:0];
+                }while(NO);
+            } failureblock:^{
+                [self cleanup];
+            }];
+        }
+    }];
+    
 }
 
 #pragma mark - Cutout modify
