@@ -19,7 +19,7 @@ AwesomeIntroGuideView is available through [CocoaPods](http://cocoapods.org). To
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AwesomeIntroguideView'
+pod 'AwesomeIntroGuideView'
 ```
 ### Source files
 
