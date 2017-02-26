@@ -75,7 +75,9 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
         [self.coachMarksView loadMarks:self.introduceArray];
         self.coachMarksView.animationDuration = 0.2;
         [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"http://www.mogujie.com/" withFrequency:0];
-        [self.coachMarksView start];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.23 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.coachMarksView start];
+        });
     }
 }
 
