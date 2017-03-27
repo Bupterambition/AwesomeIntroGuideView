@@ -437,6 +437,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
         X = (X/scale + self.guideImageView.frame.size.width)*scale - self.guideImageView.frame.size.width;
         point = CGPointMake(X, point.y);
     }
+    [self addActionForView:self.guideImageView];
     self.guideImageView.frame = (CGRect) {point,self.guideImageView.frame.size};
 }
 - (void)animateCutoutToRect:(CGRect)rect withShape:(AwesomeIntroGuideShape)shape {
@@ -538,6 +539,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
     if (index < self.guideImageItems.count) {
         guideImage = self.guideImageItems[index][@"image"];
         point = [self.guideImageItems[index][@"point"] CGPointValue];
+        self.redirectURL = self.guideImageItems[index][@"url"];
     }
     [self animateGuideImgae:guideImage withPoint:point];
     // 运行标签动画

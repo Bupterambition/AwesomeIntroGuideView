@@ -116,6 +116,7 @@ typedef void(^AwesomeWillNavigateBlock)(AwesomeIntroGuideView *guideView, NSUInt
 - (void)loadDescriptionItems:(NSArray<__kindof NSString *>  *)descriptionItems;
 /**
  *  导入引导图片字典集合（应该与view集合一一对应，当没有时传入空）
+ *  {@"image":UIImage,@"point":CGPoint,@"url":NSString}
  *
  *  @param guideImageItems 引导图片字典集合
  */
