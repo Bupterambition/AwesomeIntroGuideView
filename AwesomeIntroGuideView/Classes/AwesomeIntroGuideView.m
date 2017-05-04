@@ -266,7 +266,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 
 @implementation AwesomeIntroGuideView {
     NSUInteger markIndex;
-    NSDictionary *shapeMap;
+    NSDictionary<NSString *,NSNumber *> *shapeMap;
 }
 
 #pragma mark - init Methods
@@ -501,7 +501,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 //进行展示的主要函数
 - (void)goToCoachMarkIndexed:(NSUInteger)index {
     // Out of bounds
-    if (index >= self.coachMarks.count && index >= self.masksItems.count) {
+    if ( (index >= self->_coachMarks.count && self->_coachMarks) || (index >= self->_masksItems.count && self->_masksItems) ) {
         [self cleanup];
         return;
     }
@@ -519,7 +519,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
         if ([[markDef allKeys] containsObject:@"shape"]) {
             NSString *currentShape = [markDef objectForKey:@"shape"];
             if ([[shapeMap allKeys] containsObject:currentShape]) {
-                shape = shapeMap[currentShape];
+                shape = shapeMap[currentShape].unsignedIntegerValue;
             }
         }
     }else if (self.masksItems.count) {
@@ -760,7 +760,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 }
 
 - (BOOL)isNeedShow {
-    return !Awesome_IS_EMPTY(self.guideImageItems)||!Awesome_IS_EMPTY(self.descptionItems)||!Awesome_IS_EMPTY(self.masksItems);
+    return !(Awesome_IS_EMPTY(self->_guideImageItems) &&Awesome_IS_EMPTY(self->_descptionItems) &&Awesome_IS_EMPTY(self->_masksItems) && Awesome_IS_EMPTY(self->_coachMarks));
 }
 
 @end
