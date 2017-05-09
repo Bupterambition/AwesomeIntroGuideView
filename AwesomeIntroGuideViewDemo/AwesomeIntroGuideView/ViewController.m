@@ -20,7 +20,7 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
 @end
 
 @interface ViewController ()<UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-@property (strong, nonatomic) UICollectionView *collectionView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *introduceArray;
 @property (nonatomic, strong) AwesomeIntroGuideView *coachMarksView;
 @property (nonatomic, assign) BOOL coachMarksShown;
@@ -53,7 +53,6 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
         switch (self.type) {
             case IntroGuideType_0: {
                 self.coachMarksView.guideShape = AwesomeIntroGuideShape_Square;
-                
                 break;
             }
             case IntroGuideType_1: {
