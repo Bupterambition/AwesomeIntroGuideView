@@ -243,7 +243,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 #endif
 
 /**  需要引导的view集合 */
-@property (nonatomic, copy) NSMutableArray <NSValue *> *masksItems;
+@property (nonatomic, strong) NSMutableArray <NSValue *> *masksItems;
 /**  需要表述的文字 */
 @property (nonatomic, copy) NSArray <NSString *> *descptionItems;
 /**  需要展示的字典集合 */
