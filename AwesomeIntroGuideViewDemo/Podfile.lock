@@ -1,5 +1,5 @@
 PODS:
-  - AwesomeIntroGuideView (1.0.4):
+  - AwesomeIntroGuideView (1.0.6):
     - MGJRouter
   - MGJRouter (0.9.3)
 
@@ -11,9 +11,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  AwesomeIntroGuideView: 17f1cef3698e8bc3ffe09e286fc48e032dc9d38b
+  AwesomeIntroGuideView: 9dc341058d75fe33687f8c443e6b5c35c521c189
   MGJRouter: f65821e2aeffc8f9e84b254c8f1c0dd80f048aa9
 
 PODFILE CHECKSUM: 7fab88322b354a5a93bd4f626898bb887c16894c
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.0.1

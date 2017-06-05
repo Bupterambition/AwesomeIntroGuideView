@@ -532,8 +532,9 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
     } else {
         return;
     }
-    if ([self.delegate respondsToSelector:@selector(coachMarksView:willNavigateToIndex:)]) {
-        [self.delegate coachMarksView:self willNavigateToIndex:markIndex];
+    AwesomeIntroGuideView *strongSelf = self;
+    if ([strongSelf.delegate respondsToSelector:@selector(coachMarksView:willNavigateToIndex:)]) {
+        [strongSelf.delegate coachMarksView:strongSelf willNavigateToIndex:markIndex];
     }
     !self.willNavgateBlock?:self.willNavgateBlock(self,markIndex);
     UIImage *guideImage = nil;
@@ -656,8 +657,9 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 - (void)cleanup {
     !self.willCompletionBlock?:self.willCompletionBlock(self);
     // Delegate (coachMarksViewWillCleanup:)
-    if ([self.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
-        [self.delegate coachMarksViewWillCleanup:self];
+    AwesomeIntroGuideView *strongSelf = self;
+    if ([strongSelf.delegate respondsToSelector:@selector(coachMarksViewWillCleanup:)]) {
+        [strongSelf.delegate coachMarksViewWillCleanup:strongSelf];
     }
     // 消失
     [UIView animateWithDuration:self.animationDuration
@@ -680,8 +682,9 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     !self.didNavgateBlock?:self.didNavgateBlock(self,markIndex);
     // Delegate (coachMarksView:didNavigateTo:atIndex:)
-    if ([self.delegate respondsToSelector:@selector(coachMarksView:didNavigateToIndex:)]) {
-        [self.delegate coachMarksView:self didNavigateToIndex:markIndex];
+    AwesomeIntroGuideView *strongSelf = self;
+    if ([strongSelf.delegate respondsToSelector:@selector(coachMarksView:didNavigateToIndex:)]) {
+        [strongSelf.delegate coachMarksView:strongSelf didNavigateToIndex:markIndex];
     }
 }
 #pragma mark - Accessor
