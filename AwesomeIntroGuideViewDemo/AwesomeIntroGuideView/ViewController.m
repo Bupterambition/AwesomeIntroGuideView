@@ -45,9 +45,12 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.collectionView.layoutMargins = UIEdgeInsetsMake(30, 10, 0, 10);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self _displayCoachView];
+    });
 }
 
-- (void)viewDidLayoutSubviews {
+- (void)_displayCoachView {
     if (self.coachMarksShown == NO  && self.introduceArray.count) {
         // 展示引导层
         switch (self.type) {
@@ -70,7 +73,6 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
         }
         self.coachMarksShown = YES;
         [self.introduceArray addObject:self.navigationItem.titleView];
-        [self.introduceArray addObject:[[self.navigationController.navigationBar valueForKey:@"itemStack"][0] valueForKey:@"backButtonView"]];
         [self.coachMarksView loadMarks:self.introduceArray];
         self.coachMarksView.animationDuration = 0.2;
         [self.coachMarksView loadGuideImageUrl:introGuideImgUrl withPoint:(CGPoint){70,100} redirectURL:@"http://www.mogujie.com/" withFrequency:0];
@@ -151,3 +153,4 @@ static  NSString * const introGuideImgUrl = @"https://s10.mogucdn.com/p1/161027/
 }
 
 @end
+

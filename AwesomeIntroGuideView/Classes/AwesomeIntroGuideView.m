@@ -10,7 +10,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import <sys/xattr.h>
 #import <CommonCrypto/CommonDigest.h>
+#if __has_include(<MGJRouter/MGJRouter.h>)
 #import <MGJRouter/MGJRouter.h>
+#elif __has_include("MGJRouter.h")
+#import "MGJRouter.h"
+#endif
+
 
 static const CGFloat kAnimationDuration = 0.3f;
 static const CGFloat kCutoutRadius = 2.0f;
@@ -618,7 +623,7 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 - (void)generateGuideImageIfNeeded {
     UIImage *image = [AwesomeIntroGuideImageCache imageFromCache:self.imageURL];
     if (image) {
-        [self.guideImageItems addObject:@{@"image":image,@"point":[NSValue valueWithCGPoint:self.singleShowPoint]}];
+        [self.guideImageItems addObject:@{@"image":image,@"point":[NSValue valueWithCGPoint:self.singleShowPoint],@"url":self.redirectURL?:@""}];
     }
 }
 //给view添加方法
@@ -643,12 +648,23 @@ CG_INLINE BOOL Awesome_IS_EMPTY(id thing) {
 //展示引导
 - (void)didTouchGuideImage {
     if (!Awesome_IS_EMPTY(self.redirectURL)) {
+        #if __has_include(<MGJRouter/MGJRouter.h>)
         BOOL open = [MGJRouter canOpenURL:self.redirectURL];
         if (open) {
             [MGJRouter openURL:self.redirectURL];
         } else {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.redirectURL]];
         }
+        #elif __has_include("MGJRouter.h")
+        BOOL open = [MGJRouter canOpenURL:self.redirectURL];
+        if (open) {
+            [MGJRouter openURL:self.redirectURL];
+        } else {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.redirectURL]];
+        }
+        #else
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.redirectURL]];
+        #endif
     }
 //    [self cleanup];
 }
