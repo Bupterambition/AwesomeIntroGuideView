@@ -13,7 +13,7 @@ AwesomeIntroGuideView is an iOS drop-in class that displays user coach marks wit
 
 ## Installation
 
-###CocoaPods
+### CocoaPods
 
 AwesomeIntroGuideView is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
